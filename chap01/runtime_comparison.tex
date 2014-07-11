@@ -1,0 +1,81 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+
+\begin{document}
+
+\begin{framed}
+\textbf{\textit{Comparison of running times}} \\
+For each function $f(n)$ and time $t$ in the following table, determine the
+largest size $n$ of a problem that can be solved in time $t$, assuming that the
+algorithm to solve the problem takes $f(n)$ microseconds.
+\end{framed}
+
+\section*{Answer}
+
+Since the algorithm takes $f(n)$ microseconds, all we have to do is calculate
+the size of $n$ solved for each algorithm in each of the time frames presented. The
+following table displays the number of seconds ($1,000,000 \mu s = 10^{6} \mu s$)
+for each time unit:
+
+\begin{center}
+  \begin{tabular}{l r}
+    \hline
+    \textbf{Unit} & \textbf{Seconds} \\ \hline
+    1 minute  & 60             \\
+    1 hour    & 3,600          \\
+    1 day     & 86,400         \\
+    1 month   & 2,592,000      \\
+    1 year    & 31,536,000     \\
+    1 century & 3,153,600,000 \\
+    \hline
+  \end{tabular}
+\end{center}
+
+As an example, the size $n$ of the problem that each algorithm can solve in 1 second is calculated below.
+Similar calculations are performed for the other time units.
+
+\begin{itemize}
+  \item $\lg n = 10^{6} \iff n = 2^{10^{6}}$ {\footnotesize (a number with more than 300 thousand digits)}
+  \item $\sqrt{n} = 10^{6} \iff n = 10^{12}$
+  \item $n = 10^{6}$
+  \item $n \lg n = 10^{6} \Rightarrow n \approx 6.2 \times 10^{4}$
+  \item $n^{2} = 10^{6} \iff n = \sqrt{10^{6}} \Rightarrow n = 10^{3}$
+  \item $n^{3} = 10^{6} \iff n = \sqrt[3]{10^{6}} \Rightarrow n = 10^{2}$
+  \item $2^{n} = 10^{6} \iff n = \lg 10^{6} \Rightarrow n \approx 20$
+  \item $n! = 10^{6} \Rightarrow n \approx 9.4$
+\end{itemize}
+
+With these numbers in hand, we can now fill in the table:
+
+\begin{center}
+  \begin{tabular}{ *{8}{c|} }
+    & \shortstack{1 \\ second} & \shortstack{1 \\ minute} & \shortstack{1 \\ hour}%
+      & \shortstack{1 \\ day} & \shortstack{1 \\ month} & \shortstack{1 \\ year}%
+      & \shortstack{1 \\ century} \\ \hline
+
+    $\lg n$ & $2^{10^{6}}$ & $2^{6 \times 10^{7}}$ & $2^{3.6 \times 10^{9}}$ &%
+    $2^{8.6 \times 10^{10}}$ & $2^{2.6 \times 10^{12}}$ & $2^{3.1 \times 10^{13}}$ & $2^{3.1 \times 10^{15}}$ \\ \hline
+
+    $\sqrt{n}$ & $10^{12}$ & $3.6 \times 10^{15}$ & $1.3 \times 10^{19}$ & $7.5 \times 10^{21}$ &%
+      $6.7 \times 10^{24}$ & $9.9 \times 10^{26}$ & $9.9 \times 10^{30}$ \\ \hline
+
+    $n$ & $10^{6}$ & $6 \times 10^{7}$ & $3.6 \times 10^{9}$ & $8.6 \times 10^{10}$ &%
+      $2.6 \times 10^{12}$ & $3.1 \times 10^{13}$ & $3.1\times 10^{15}$ \\ \hline
+
+    $n \lg n$ & $6.2 \times 10^{4}$ & $2.8 \times 10^{6}$ & $1.3 \times 10^{8}$ &%
+      $2.7 \times 10^{9}$ & $7.2 \times 10^{10}$ & $7.9 \times 10^{11}$ & $6.8 \times 10^{13}$ \\ \hline
+
+    $n^{2}$ & $10^{3}$ & $7.7 \times 10^{3}$ & $6 \times 10^{4}$ & $2.9 \times 10^{5}$ &%
+      $1.6 \times 10^{6}$ & $5.6 \times 10^{6}$ & $5.6 \times 10^{7}$ \\ \hline
+
+    $n^{3}$ & $10^{2}$ & $3.9 \times 10^{2}$ & $1.5 \times 10^{3}$ & $4.4 \times 10^{3}$ &%
+      $1.4 \times 10^{4}$ & $3.1 \times 10^{4}$ & $1.5 \times 10^{5}$ \\ \hline
+
+    $2^{n}$ & $20$ & $26$ & $32$ & $36$ & $41$ & $45$ & $51$ \\ \hline
+
+    $n!$ & $9.4$ & $11$ & $13$ & $14$ & $15$ & $16$ & $17$ \\ \hline
+    \end{tabular}
+\end{center}
+
+\end{document}
