@@ -1,0 +1,160 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+
+\begin{document}
+
+\section*{Exercises}
+Below are my answers to the exercises of this chapter. They are spread across
+sections. Before every answer there is the question itself, wrapped in a box.
+
+\begin{framed}
+\textbf{\textit{1.1-1}} \\
+\textit{Give a real-world example that requires sorting or a real-world example that
+requires computing a convex hull.}
+\end{framed}
+
+The most basic example we can think for a sorting problem is a search engine: in order
+to present the results of a given query to the user, it must search through a huge number
+of pages that can be very distantly located and then \textbf{sort} them by relevance
+so that the user can see the most important items first.
+
+Applications that deal with geospatial information are a good example of usage of the
+\textbf{convex hull} algorithm. Given a set of coordinates, they can calculate the
+convex hull formed by these locations in order to perform queries and analises
+needed to return information the user needs in such systems.
+
+\begin{framed}
+\textbf{\textit{1.1-2}} \\
+\textit{Other than speed, what other measures of efficiency might one use in a real-world
+setting?}
+\end{framed}
+
+Whatever the application, the usage of any scarce resource is a valid measure of efficiency
+for a given algorithm. Examples might include:
+
+\begin{itemize}
+  \item memory usage on an embedded system;
+  \item bandwith consumption on a mobile device;
+  \item number of accesses to a slow device/external service.
+\end{itemize}
+
+\begin{framed}
+\textbf{\textit{1.1-3}} \\
+\textit{Select a data structure that you have seen previously, and discuss its strengths
+and limitations.}
+\end{framed}
+
+\textbf{Chosen data structure: Linked List}.
+
+A Linked List is a data structure that can be used to store a collection of objects.
+As the name implies, it consists of a list of objects, each of which has a pointer
+to the next and to the previous ones. Bothe the first and last elements have
+special markers that indicate that there is no previous and next element, respectively.
+This data structure has some advantages and disadvantages when compared to the
+traditional array:
+
+\subsubsection*{Advantages}
+\begin{itemize}
+  \item The list can grow indefinitely large as space is allocated separately
+    for each object;
+  \item Inserting and removing an element in an arbitrary position in the
+    list is a constant-time operation;
+  \item Moving objects from one position to the other is also a  constant-time
+    operation, since no elements must be shifted;
+\end{itemize}
+
+\subsubsection*{Disadvantages}
+\begin{itemize}
+  \item Accessing an element on the list takes time that grows linearly with
+    the number of element on it, while the array approach takes constant-time
+    no matter the size of the list;
+  \item Lots of bookkeeping with the references for previous and next element
+    pointers for each object on the list, which make algorithms for such data
+    structures more confusing and error prone.
+\end{itemize}
+
+In general, linked lists are best suited when the application does not expect
+to receive lots of direct accesses on arbitrary positions, or when the list
+is expected to be always sorted.
+
+\begin{framed}
+\textbf{\textit{1.1-4}} \\
+\textit{How are the shortest-path and traveling-salesman problems given above
+similar? How are they different?}
+\end{framed}
+
+Both the shortest-path and the traveling-salesman problems involve finding
+an optimal path that must be taken in order to minimize costs. However, the
+traveling-salesman problem imposes more constraints: all the places must be
+visited exactly once and the salesman must return to the starting point at
+the end. These constraints turn the problem into an NP-hard problem, which
+does not have an efficient solution.
+
+\begin{framed}
+\textbf{\textit{1.1-5}} \\
+\textit{Come up with a real-world problem in which only the best solution will
+do. Then come up with one in which the solution that is "approximately" the best
+is good enough.}
+\end{framed}
+
+Many algorithms rely on sorting to perform correctly and thus any algorithm
+that produces an "approximately" sorted result is going generate wrong answers.
+
+One example of solution in which an approximate result is good enough is a
+distribution software. When calculating the optimal path that must be taken
+in order to deliver a set of packages, it can reach the traveling-salesman
+problem and thus an optimal solution can become prohibitively expensive.
+In this scenario, an approximate solution is good enough since it can be
+generated quickly and does not incur much higher costs.
+
+\begin{framed}
+\textbf{\textit{1.2-1}} \\
+\textit{Give an example of an application that requires algorithmic content at the
+application level, and discuss the function of the algorithms involved.}
+\end{framed}
+
+Nowadays, many e-commerces take advantage of data mining algorithms in order to
+make suggestions of products to customers. To do that they apply algorithms
+that find other customers that have similar interests and then suggest products
+that customers with shared interests bought. These applications use these
+algorithms to compare customers interests and then sort them according to the
+extent to which their interests are shared.
+
+\begin{framed}
+\textbf{\textit{1.2-2}} \\
+\textit{Suppose we are comparing implementations of insertion sort and merge sort
+on the same machine. For inputs of size $n$, insertion sort runs in $8n^{2}$ steps,
+while merge sort runs in $64n \lg n$ steps. For which values of $n$ does insertion
+sort beat merge sort?}
+\end{framed}
+
+In order to insertion sort to perform faster than merge sort, the following must
+hold true (we can safely assume $n > 0$):
+
+$8n^{2} \leq 64n \lg n$ \newline
+$\Rightarrow n \leq 8 \lg n$ \newline
+$\Rightarrow \lg n \geq \frac{n}{8}$ \newline
+$\Rightarrow n \geq 2^{\frac{n}{8}}$ \newline
+\framebox{$n \approx 43.5$} \newline
+
+Thus, insertion sort is faster than merge sort for sets less than \textbf{44 elements} long.
+
+\begin{framed}
+\textbf{\textit{1.2-3}} \\
+\textit{What is the smallest value of $n$ such that an algorithm whose running
+time is $100n^{2}$ runs faster than an algorithm whose running time is $2^{n}$
+on the same machine?}
+\end{framed}
+
+The quadratic algorithm will run faster for values of $n$ for which the following
+holds true (again, $n > 0$):
+
+$100n^{2} \leq 2^{n}$ \newline
+$\Rightarrow n \geq 2(\lg n + \lg 10)$ \newline
+\framebox{$n \geq 14.3$ {\footnotesize (approximately)}} \newline
+
+Thus, the quadratic algorithm will run faster for values of $n$ that are
+\textbf{greater than or equal to 15}.
+
+\end{document}
