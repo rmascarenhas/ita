@@ -49,7 +49,7 @@ and limitations.}
 
 A Linked List is a data structure that can be used to store a collection of objects.
 As the name implies, it consists of a list of objects, each of which has a pointer
-to the next and to the previous ones. Bothe the first and last elements have
+to the next and to the previous ones. Both the first and last elements have
 special markers that indicate that there is no previous and next element, respectively.
 This data structure has some advantages and disadvantages when compared to the
 traditional array:
@@ -59,9 +59,10 @@ traditional array:
   \item The list can grow indefinitely large as space is allocated separately
     for each object;
   \item Inserting and removing an element in an arbitrary position in the
-    list is a constant-time operation;
+    list is a constant-time operation as long as we have a pointer to the position;
   \item Moving objects from one position to the other is also a  constant-time
-    operation, since no elements must be shifted;
+    operation, since no elements must be shifted as long as we have pointers
+    to the positions;
 \end{itemize}
 
 \subsubsection*{Disadvantages}
@@ -88,7 +89,7 @@ Both the shortest-path and the traveling-salesman problems involve finding
 an optimal path that must be taken in order to minimize costs. However, the
 traveling-salesman problem imposes more constraints: all the places must be
 visited exactly once and the salesman must return to the starting point at
-the end. These constraints turn the problem into an NP-hard problem, which
+the end. These constraints turn the problem into an NP-complete problem, which
 does not have an efficient solution.
 
 \begin{framed}
