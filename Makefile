@@ -15,6 +15,9 @@ build: $(OBJ)
 run: build
 	./$(PROG)
 
+check:
+	bash $(TEST)
+
 .PHONY: clean
 
 clean:
