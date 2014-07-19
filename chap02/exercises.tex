@@ -26,10 +26,10 @@ The algorithm:
 \begin{codebox}
   \Procname{$\proc{Linear-Search}(A, v)$}
   \li $j = 1$
-  \li \While $j < \attrib{A}{length} \const{and} A[j] \neq v$     \label{loop-start}
+  \li \While $j < \attrib{A}{length} \const{and} A[j] \neq v$     \label{isort-loop-start}
         \Do
   \li     $j = j + 1$
-  \End                                                            \label{loop-end}
+  \End                                                            \label{isort-loop-end}
   \li \If $j \leq A.length$
         \Then
   \li     \Return $j$
@@ -41,7 +41,7 @@ The algorithm:
 The loop invariant of this algorithm:
 
 \begin{quotation}
-  At the start of each iteration of the \While loop of lines \ref{loop-start}-\ref{loop-end},
+  At the start of each iteration of the \While loop of lines \ref{isort-loop-start}-\ref{isort-loop-end},
   the subarray $A[1 \twodots j]$ can only contain $v$ at position $j$.
 \end{quotation}
 
@@ -63,5 +63,67 @@ and the element $v$ cannot be in the array $A[1 \twodots n]$, that is, the array
 not contain $v$ and the algorith will return \const{nil}. In the latter case, $A[j] = v$,
 and the value $v$ can only be at position $j$, which happens to be true. The algorithm
 then returns the index $j$ where the value is located. Hence, the algorithm is correct.
+
+\begin{framed}
+\textbf{\textit{2.2-2}} \\
+\textit{Consider sorting $n$ numbers stored in an array $A$ by first finding the smallest
+element of $A$ and exchanging it with the element in $A[1]$. Then find the second smallest
+element of $A$, and exchange it with $A[2]$. Continue in this manner for the first $n - 1$
+elements of $A$. Write pseudocode for this algorithm, which is known as \textbf{selection sort}.
+What loop invariant does this algorithm maintain? Why does it need to run for only the first
+$n - 1$ elements, rather than for all $n$ elements? Give the best-case and worst-case running
+times of selection sort in $\Theta$-notation.
+}
+\end{framed}
+
+First of all, the algorithm:
+
+\begin{codebox}
+  \Procname{$\proc{Selection-Sort}(A)$}
+  \li $j = 1$
+  \li \For $j = 1 \To \attrib{A}{length} -1$  \label{ssort-loop-start}
+        \Do
+  \li     $min = j$
+  \li     \For $i = j \To \attrib{A}{length}$
+            \Do
+  \li         \If $A[i] < A[min]$
+                \Then
+  \li             $min = i$
+                \End
+            \End
+  \li     $key = A[j]$
+  \li     $A[j] = A[min]$
+  \li     $A[min] = key$
+        \End                                  \label{ssort-loop-end}
+\end{codebox}
+
+The algorithm for $\proc{Selection-Sort}$ above holds the following loop invariant:
+
+\begin{quotation}
+  At the start of each iteration of the \For loop of lines \ref{ssort-loop-start}-\ref{ssort-loop-end},
+  the subarray $A[1 \twodots j-1]$ is sorted and $A[j]$ is bigger than any element in it.
+\end{quotation}
+
+Let's take a look at the three properties of loop invariants: \\
+
+\textbf{Initialization}: Before the first loop iteration, $j = 1$, and for trivial
+reasons, $A[1 \twodots j-1]$ is sorted and $A[1]$ is bigger than any element in it. \\
+
+\textbf{Maintenance}: In each iteration, the loop inserts the smallest element from
+$A[j \twodots n]$ at position $j$, i.e., $A[j-1] \leq A[j]$ for any $j$. Thus, we conclude
+that the subarray $A[1 \twodots j-1]$ is always sorted. As a consequence of the algorithm,
+$A[j]$ cannot be smaller than any element in $A[1 \twodots j-1]$, otherwise that element
+would already be there. \\
+
+\textbf{Termination}: The loop terminates when $j = \attrib{A}{length}$. In this scenario,
+the subarray in $A[1 \twodots j-1]$ is guaranteed to be ordered, and $A[j]$ is bigger than
+any element in it. Hence, the whole array is sorted and the algorithm is correct. \\
+
+As explained in the analysis above, the algorithm only needs to run for the first $n - 1$
+elements because it guarantees that the next element considered is bigger than any element
+before. Thus, at iteration $n$ the array will be already sorted.
+
+As the algorithm loops through all the array no matter the disposition of the elements in
+the array, this algorithm is $\Theta(n^{2})$ both in the best-case and worst-case scenarios.
 
 \end{document}
