@@ -25,10 +25,12 @@
  *  the caller must first call `init_dataset'.
  */
 
-extern int init_dataset(int argc, char *argv[]);
+extern void dataset_usage(void);
 
-extern int get_dataset(int *buf, int const size);
+extern int dataset_init(int argc, char *argv[]);
 
-extern int print_dataset(int const *buf, int const size);
+extern int dataset_get(int *buf, int const size);
+
+extern int dataset_print(int const *buf, int const size);
 
 #endif

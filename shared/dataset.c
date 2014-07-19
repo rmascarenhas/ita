@@ -22,6 +22,8 @@ static int ifd = STDIN_FILENO,
 
 static char *separator = "\n";
 
+extern char *progname;
+
 static int
 read_args(int argc, char *argv[]) {
   int opt;
@@ -62,13 +64,22 @@ read_args(int argc, char *argv[]) {
   return 0;
 }
 
+void
+dataset_usage(void) {
+  printf("Usage:\n\
+    $ %s [-i <file>] [-o <file>] [-s <separator>>]\n\
+    \t-i - input file\n\
+    \t-o - output file\n\
+    \t-s - separator: used to get numbers from input and to print the result\n", progname);
+}
+
 int
-init_dataset(int argc, char *argv[]) {
+dataset_init(int argc, char *argv[]) {
   return read_args(argc, argv);
 }
 
 int
-get_dataset(int *set, int const size) {
+dataset_get(int *set, int const size) {
   long data;
   int i;
   ssize_t num_read;
@@ -110,7 +121,7 @@ get_dataset(int *set, int const size) {
 }
 
 int
-print_dataset(int const *set, int const size) {
+dataset_print(int const *set, int const size) {
   int i, sstr;
   char buf[BUFSIZ];
 
