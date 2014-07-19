@@ -80,42 +80,53 @@ dataset_init(int argc, char *argv[]) {
 
 int
 dataset_get(int *set, int const size) {
-  long data;
+  long data, bufsiz, total_read;
   int i;
   ssize_t num_read;
-  char buf[BUFSIZ],
+  char *buf,
        *num,
        *saveptr,
        *endptr;
 
-  i = 0;
-  while ((num_read = read(ifd, buf, BUFSIZ)) > 0) {
-    num = strtok_r(buf, separator, &saveptr);
 
-    while (num != NULL) {
-      data = strtol(num, &endptr, 10);
+  bufsiz = 100 * BUFSIZ;
+  buf = malloc(bufsiz);
+  if (buf == NULL) {
+    return -1;
+  }
 
-      /* test for invalid number */
-      if (data == LONG_MIN || data == LONG_MAX || endptr == num) {
-        errno = EINVAL;
-        return -1;
-      }
-
-      set[i] = data;
-
-      num = strtok_r(NULL, separator, &saveptr);
-      ++i;
-
-      if (i == size) {
-        errno = ENOMEM;
-        return -1;
-      }
-    }
+  i = total_read = 0;
+  while ((num_read = read(ifd, buf + total_read, bufsiz - total_read)) > 0) {
+    total_read += num_read;
   }
 
   if (num_read == -1) {
     return -1;
   }
+
+  num = strtok_r(buf, separator, &saveptr);
+
+  while (num != NULL) {
+    data = strtol(num, &endptr, 10);
+
+    /* test for invalid number */
+    if (data == LONG_MIN || data == LONG_MAX || endptr == num) {
+      errno = EINVAL;
+      return -1;
+    }
+
+    set[i] = data;
+
+    num = strtok_r(NULL, separator, &saveptr);
+    ++i;
+
+    if (i == size) {
+      errno = ENOMEM;
+      return -1;
+    }
+  }
+
+  free(buf);
 
   return i;
 }
