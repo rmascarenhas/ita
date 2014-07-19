@@ -3,7 +3,7 @@ CFLAGS=-I. -Wall -Wextra -O3
 
 ODIR=shared
 
-_OBJ = dataset.o
+_OBJ = utils.o dataset.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: $(ODIR)/%.c
