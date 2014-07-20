@@ -62,5 +62,71 @@ In practice, the value of $k$ should be chosen for inputs of size for which
 the running time of insertion sort is smaller than that of merge sort, considering
 constant factors.
 
+\newpage
+
+\begin{framed}
+  \textbf{\textit{2-2} Correctness of bubblesort}
+\end{framed}
+
+\subsubsection*{a}
+
+Besides the order property already presented in the exercise, the every element in $A$
+must also be present in $A'$, that is:
+
+\begin{center}
+  $A'[i] \subset A \forall i \in \{ 1 \twodots n \}$
+\end{center}
+
+\subsubsection*{b}
+
+The loop invariant of the inner loop of the $\proc{Bubble-Sort}$ algorithm is:
+
+\begin{quotation}
+  At the start of each iteration of the inner \For loop, the smallest element of
+  $A[j \twodots n]$ is at position $j$.
+\end{quotation}
+
+Let's analyze this invariant: \\
+
+\textbf{Initialization}: the loop starts with $j = \attrib{A}{length} = n$, and the
+invariant is trivially correct. \\
+
+\textbf{Maintenance}: at each iteration of the loop, the algorithm checks whether the
+element of position $j$ is smaller than then one at position $j - 1$ and swaps them
+so that the smaller one is placed before the other. Thus, $j$ will always be the index
+of the smaller checked element in the array. \\
+
+\textbf{Termination}: the loop terminates when $j = i$. In this condition, $A[i]$ will
+contain the smallest element from in $A[i \twodots n]$.
+
+\subsubsection*{c}
+
+The invariant of the outer loop of the $\proc{Bubble-Sort}$ algorithm can be stated as:
+
+\begin{quotation}
+  At the start of each iteration of the outer \For loop, the subarray $A[1 \twodots i]$
+  is sorted.
+\end{quotation}
+
+Analyzing the loop invariant: \\
+
+\textbf{Initialization}: the loop starts with $i = 1$. An array with only one element
+is trivially sorted, so the invariant holds on initialization. \\
+
+\textbf{Maintenance}: as shown in the previous exercise, the inner loop guarantees
+that after it is done, the smallest element from $A[i \twodots n]$ will be at position
+$i$. Thus, the array gets incrementally sorted and $A[1 \twodots i]$ is sorted after
+every iteration. \\
+
+\textbf{Termination}: The loop terminates when $i = \attrib{A}{length}$. When this
+happens, the array from $A[1 \twodots n]$ is sorted, that is, the whole array is
+sorted. Hence, the algorithm is correct.
+
+\subsubsection*{d}
+
+No matter the disposition of the input array, the $\proc{Bubble-Sort}$ algorithm
+always loops twice in it, and thus have a running time of $\Theta(n^{2})$, same
+as the worst-case for insertion sort.
+
 
 \end{document}
