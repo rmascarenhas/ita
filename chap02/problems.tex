@@ -1,0 +1,66 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+\usepackage{crlscode3e}
+
+\begin{document}
+
+\section*{Problems}
+
+\begin{framed}
+\textbf{\textit{2-1} Insertion sort on small arrays in merge sort}
+\end{framed}
+
+\subsubsection*{a}
+
+The worst-case scenario for the insertion sort algorithm is $\Theta(n^{2})$.
+Since each sublist has $k$ elements, sorting each one of them takes time
+that is $\Theta(k^{2})$. However, all the sublists must be sorted and there
+are $\frac{n}{k}$ of them, so sorting them all will take:
+
+\begin{center}
+\framebox{$\Theta(k^{2} . \frac{n}{k}) = \Theta(nk)$}
+\end{center}
+
+\subsubsection*{b}
+
+We can use a Divide and Conquer approach to merge all the $\frac{n}{k}$ sublists.
+We first merge the left $\frac{n}{2k}$ lists and then the right $\frac{n}{2k}$ lists.
+To combine the results, the same $\proc{Merge}$ algorithm described in the book, that
+is proven to be $\Theta(n)$. Thus, as there are $\frac{n}{k}$ sublists, the algorithm
+will span $\lg (\frac{n}{k})$ recursive calls, yielding a complexity of:
+
+\begin{center}
+\framebox{$(cn . \lg (\frac{n}{k})) + cn = \Theta(n \lg (\frac{n}{k}))$}
+\end{center}
+
+\subsubsection*{c}
+
+In order for the algorithm to have the same running time of the standard merge sort,
+its running time must be $\Theta(n \lg n)$. Performing some manipulations on the
+new algorithm complexity:
+
+\begin{center}
+$nk + n \lg (\frac{n}{k}) =$ \\
+$nk + n(\lg n - \lg k) =$ \\
+$nk + n \lg n - n \lg k$
+\end{center}
+
+Thus, in order for the above function to be $\Theta(n \lg n)$, the highest order
+member of it must be $n \lg n$, that is:
+
+\begin{center}
+$nk \leq n \lg n \Rightarrow$
+\framebox{$k \leq \lg n$}
+\end{center}
+
+The maximum value for $k$ is $\lg n$.
+
+\subsubsection*{d}
+
+In practice, the value of $k$ should be chosen for inputs of size for which
+the running time of insertion sort is smaller than that of merge sort, considering
+constant factors.
+
+
+\end{document}
