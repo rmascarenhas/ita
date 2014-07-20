@@ -128,5 +128,62 @@ No matter the disposition of the input array, the $\proc{Bubble-Sort}$ algorithm
 always loops twice in it, and thus have a running time of $\Theta(n^{2})$, same
 as the worst-case for insertion sort.
 
+\begin{framed}
+  \textbf{\textit{2-3} Correctness of Horner's rule}
+\end{framed}
+
+\subsubsection*{a}
+
+The main loop of the algorithm runs $n + 1$ times. Thus, its running time
+is $\Theta(n)$.
+
+\subsubsection*{b}
+
+The naive polinomial-evaluation algorithm would be the following:
+
+\begin{codebox}
+  \Procname{$\proc{Naive-Polinomial}(A, x)$}
+  \li $sum = 0$
+  \li \For $j = 1 \To \attrib{A}{length}$
+        \Do
+  \li     $sum = sum + A[j] . exp(x, j)$
+        \End
+\end{codebox}
+
+Assuming that exponentiation is not a basic operation (only multiplication is),
+it would need to be calculated in each step, taking time that is $\Theta(\lg n)$.
+As the loop runs $n$ times, the whole algorithm running time is $\Theta(n \lg n)$.
+
+\subsubsection*{c}
+
+\textbf{Initialization}: The loop starts with $i = n$. In this case, the summation
+goes from $k = 0$ to $n - (i + 1) = -1$, that is, an empty sum. So, the $y = 0$,
+and the invariant holds. \\
+
+\textbf{Maintenance}: at each iteration, $y$ is calculated as $a_i$ plus $x$
+multiplied with the previous value of $y$:
+
+\begin{center}
+  $y = a_i + x . y \Rightarrow$ \\
+  $y = a_i + x (\sum\limits_{k = 0}^{n-(i+1)} a_{k+i+1} x^k) \Rightarrow$ \\
+  $y = a_i + \sum\limits_{k = 1}^{n - i} a_{k+i} x^k \Rightarrow$ \\
+  $y = \sum\limits_{k = 0}^{n-i} a_{k+i} x^k$
+\end{center}
+
+Thus, the invariant holds on iterations. \\
+
+\textbf{Termination}: The loop terminates when $i = -1$. In this scenario, we have:
+
+\begin{center}
+  $y = \sum_{k = 0}^{n} a_k x^k \Rightarrow$
+  \framebox{$y = P(x)$}
+\end{center}
+
+and the algorithm is correct.
+
+\subsubsection*{d}
+
+As we saw above, the algorithm is correct.
+
 
 \end{document}
