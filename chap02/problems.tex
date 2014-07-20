@@ -185,5 +185,76 @@ and the algorithm is correct.
 
 As we saw above, the algorithm is correct.
 
+\begin{framed}
+\textbf{\textit{2-4} Inversions}
+\end{framed}
+
+\subsubsection*{a}
+
+The inversions of the array $\langle 2, 3, 8, 6, 1 \rangle$ are $\langle 2, 1 \rangle$,
+$\langle 3, 1 \rangle$, $\langle 8, 6 \rangle$, $\langle 8, 1 \rangle$ and $\langle 6, 1\rangle$.
+
+\subsubsection*{b}
+
+The array with most inversions is the one in reverse order, that is, $\langle n, n-1, n-2, ..., 1 \rangle$.
+The number of inversions in this array is:
+
+\begin{center}
+  $\sum_{k=1}^{n-1} k = \frac{n(n-1)}{2}$
+\end{center}
+
+\subsubsection*{c}
+
+The inversion sort algorithm works by iterating from the end of an array to the start, changing
+elements that are out of order. In other words, insertion sort will shift elements in the array
+whenever we have an inversion. Thus, the more inversions the input list has, the more time
+insertion sort will take to sort it.
+
+\subsubsection*{d}
+
+To count the number of inversions in an array, we need to modify the $\proc{Merge}$ algorithm
+so that it also counts the number of inversions. An inversion happens whenever we pick a
+an element from the array of the right when there are still elements on the left: it means
+that an element in the right was smaller than one on the left, which characterizes an inversion.
+For each element on the right that is taken, the number of inversions is increased by the
+number of remaining elements in the left array:
+
+\begin{codebox}
+  \Procname{$\proc{Merge}(A, p, q, r)$}
+  \li $n_1 = q - p + 1$
+  \li $n_2 = r - q$
+  \li let $L[1 \twodots n_1 + 1]$ and $R[1 \twodots n_2 + 1]$ be new arrays
+  \li \For $i = 1 \To n_1$
+        \Do
+  \li     $L[i] = A[p + i -1]$
+        \End
+  \li \For $j = 1 \To n_2$
+        \Do
+  \li     $R[j] = A[q + j]$
+        \End
+  \li $L[n_1 + 1] = \infty$
+  \li $R[n_2 + 1] = \infty$
+  \li $i = 1$
+  \li $j = 1$
+  \li $invs = 0$
+  \li \For $k = p \To r$
+        \Do
+  \li     \If $L[i] \leq R[j]$
+            \Then
+  \li         $A[k] = L[i]$
+  \li         $i = i + 1$
+  \li       \Else
+  \li         $A[k] = R[j]$
+  \li         $j = j + 1$
+  \li         \If $L[i] \neq \infty$
+                \Then
+  \li             $invs = invs + (n_1 - i)$
+                \End
+            \End
+        \End
+\end{codebox}
+
+Since the above change does not affect the running time of the $\proc{Merge}$
+algorithm, the inversion counting algorithm runs on $\Theta(n \lg n)$.
 
 \end{document}
