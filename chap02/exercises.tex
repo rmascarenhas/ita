@@ -126,4 +126,32 @@ before. Thus, at iteration $n$ the array will be already sorted.
 As the algorithm loops through all the array no matter the disposition of the elements in
 the array, this algorithm is $\Theta(n^{2})$ both in the best-case and worst-case scenarios.
 
+\begin{framed}
+\textbf{\textit{2.3-7} $\star$} \\
+\textit{Describe a $\Theta(n \lg n)$-time algorithm that, given a set $S$ of $n$ integers
+and another integer $x$, determines whether or not there exist two elements in $S$ whose
+sum is exactly $x$.}
+\end{framed}
+
+We can use the Divide and Conquer approach to solve this problem. First of all we sort
+the input array in $\Theta(n \lg n)$ time. Then, we check if there are two numbers in the
+first $\frac{n}{2}$ whose sum is $x$; if there is not, we check for the other $\frac{n}{2}$
+elements. If there is no two elements whose sum is $x$ in this half either, we check for
+split sums: for each element on the left subarray, we search for an element in the right
+array. As the arrays are sorted, we can use the \textbf{binary search} algorithm for that,
+which runs in $\Theta(\lg n)$ time. As we need to search for a matching number for each element
+in the left array, we need to perform the binary search at most $\frac{n}{2}$ times. Thus,
+the algorithm runs in $\Theta(n \lg n)$ time.
+
+\begin{codebox}
+  \Procname{$\proc{Split-Sum}(A, p, q, r, sum)$}
+  \li $n_1 = q - p + 1$
+  \li \For $k = 1 \To n_1$
+        \Do
+  \li     \If $\proc{Binary-Search}(A, p, q, sum - A[p + k - 1])$
+            \Then
+            \li         \Return $\const{true}$
+        \End
+\end{codebox}
+
 \end{document}
