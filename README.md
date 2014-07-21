@@ -22,3 +22,10 @@ if you do not have a LATEX environment properly set and wish to see the output,
 please take a look at the corresponding pull request (there should be one for each
 chapter, roughly).  I plan to attach the compiled content of the answers there
 whenever it involves LATEX. I am sorry for the trouble.
+
+**Compiling the LATEX sources**
+
+If you wish to compile the LATEX sources for the exercises, keep in mind that I use
+the `clrs3e` LATEX package in most of them. You will need to download and install
+it on your system in order to compile from source. The files and documentation can
+be found [here](http://www.cs.dartmouth.edu/~thc/clrscode/).
