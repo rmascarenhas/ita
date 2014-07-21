@@ -8,6 +8,12 @@
 
 #include <errno.h>
 
+#define Fatal(...) { \
+  fprintf(stderr, __VA_ARGS__); \
+  exit(EXIT_FAILURE); \
+}
+
+
 /* General purpose functions */
 
 extern void pexit(char const *id);
