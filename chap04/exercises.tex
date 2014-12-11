@@ -1,0 +1,590 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+\usepackage{clrscode3e}
+\usepackage{amsmath}
+
+% creates a 1x1 matrix (square one matrix) that can be used alongside a text
+\newcommand{\som}[1]
+{
+  \bigl( \begin{smallmatrix} {#1} \end{smallmatrix} \bigr)
+}
+
+%running fraction with slash - requires math mode.
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+
+\begin{document}
+
+\section*{Exercises}
+My answers to a few selected exercises.
+
+\begin{framed}
+\textbf{\textit{4.1-2}} \\
+\textit{Write pseudocode for the brute-force method of solving the maximum-subarray problem.
+Your procedure should run in $\Theta(n^{2})$ time.}
+\end{framed}
+
+	The brute-force algorithm for the maximum-subarray problem involves iterating
+over the collection to find every possible pair $i, j$ such that $i < j$ and return
+the subarray with the maximum sum found along the process. \\
+
+	The pseudocode for such an algorithm could be as follows:
+
+\begin{codebox}
+  \Procname{$\proc{Brute-Force-Maximum-Subarray}(A)$}
+  \li $\id{max-sum} = - \infty$
+  \li \For $i \gets 1$ \To $\attrib{A}{length}$
+        \Do
+  \li     $\id{sum} = 0$
+  \li     \For $j \gets i$ \To $\attrib{A}{length}$
+            \Do
+  \li         $\id{sum} = \id{sum} + A[j]$
+  \li         \If $\id{sum} > \id{max-sum}$
+                \Then
+  \li             $\id{max-sum} = \id{sum}$
+  \li             $\id{max-left} = \id{i}$
+  \li             $\id{max-right} = \id{j}$
+                \End
+            \End
+      \End
+  \li \Return $(\id{max-left}, \id{max-right}, \id{max-sum})$
+\end{codebox}
+
+	The two nested loops in the algorithm above make it easy to see that it
+runs in $\Theta(n^{2})$ time, where $n$ is the length of the array.
+
+\begin{framed}
+\textbf{\textit{4.1-5}} \\
+\textit{Use the following ideas to develop a nonrecursive, linear-time algorithm for the
+maximum-subarray problem. Start at the left end of the array, and progress toward
+the right, keeping track of the maximum subarry seen so far. Knowing a maximum
+subarray of $A[1 \twodots j]$, extend the answer to find a maximum subarray ending
+at index $j + 1$ by using the following observation: a maximum subarray of
+$A[1 \twodots j + 1]$ is either a maximum subarray of $A[1 \twodots j]$ or a subarray
+$A[i \twodots j + 1]$, for some $1 \leq i \leq j + 1$. Determine a maximum subarray
+of the form $A[i \twodots j + 1]$ in constant time based on knowing a maximum
+subarray ending at index $j$.}
+\end{framed}
+
+	As the exercises suggest, the main idea behind the linear-time algorithm is
+to keep track not only the current maximum subarray, but also of a \textit{candidate}
+subarray that can potentially produce a larger sum. \\
+
+	The algorithm could be as follows:
+
+\begin{codebox}
+  \Procname{$\proc{Linear-Maximum-Subarray}(A)$}
+  \li \id{candidate-max} = \id{max-sum} = A[1]
+  \li \id{candidate-start} = 1
+  \li \For $j = 2$ \To $\attrib{A}{length}$
+        \Do
+  \li     \If $\id{candidate-sum} > 0$
+            \Then
+  \li         \id{candidate-sum} = \id{candidate-sum} + $A[j]$
+  \li       \Else
+  \li         \id{candidate-sum} = $A[j]$
+  \li         \id{candidate-start} = $j$
+            \End
+  \li     \If $\id{candidate-sum} > \id{max-sum}$
+            \Then
+  \li         \id{max-sum} = \id{candidate-sum}
+  \li         \id{max-left} = \id{candidate-start}
+  \li         \id{max-right} = $j$
+            \End
+          \End
+  \li \Return $(\id{max-left}, \id{max-right}, \id{max-sum})$
+\end{codebox}
+
+\begin{framed}
+\textbf{\textit{4.2-1}} \\
+\textit{Use Strassen's algorithm to compute the matrix product}
+
+\begin{equation*}
+  \begin{pmatrix}
+    1 & 3 \\
+    7 & 5
+  \end{pmatrix}
+  \begin{pmatrix}
+    6 & 8 \\
+    4 & 2
+  \end{pmatrix}
+\end{equation*}
+
+\textit{Show your work.}
+\end{framed}
+
+The Strassen's algorithm first creates a set of pre-defined sums, on which 7 products
+are later calculated. Using these products, the result matrix can be built. \\
+
+Sums:
+
+\begin{flalign*}
+  & S_{1}  = B_{12} - B_{22} = \som{8} - \som{2} = \som{6}  & \\
+  & S_{2}  = A_{11} + A_{12} = \som{1} + \som{3} = \som{4}  & \\
+  & S_{3}  = A_{21} + A_{22} = \som{7} + \som{5} = \som{12} & \\
+  & S_{4}  = B_{21} - B_{11} = \som{4} - \som{6} = \som{-2} & \\
+  & S_{5}  = A_{11} + A_{22} = \som{1} + \som{5} = \som{6}  & \\
+  & S_{6}  = B_{11} + B_{22} = \som{6} + \som{2} = \som{8}  & \\
+  & S_{7}  = A_{12} - A_{22} = \som{3} - \som{5} = \som{-2} & \\
+  & S_{8}  = B_{21} + B_{22} = \som{4} + \som{2} = \som{6}  & \\
+  & S_{9}  = A_{11} - A_{21} = \som{1} - \som{7} = \som{-6} & \\
+  & S_{10} = B_{11} + B_{12} = \som{6} + \som{8} = \som{14} &
+\end{flalign*}
+
+\newpage
+Products:
+
+\begin{flalign*}
+  & P_{1}  = A_{11} \cdot S_{1}  = \som{1}  \cdot \som{6}  = \som{6}   & \\
+  & P_{2}  = S_{2}  \cdot B_{22} = \som{4}  \cdot \som{2}  = \som{8}   & \\
+  & P_{3}  = S_{3}  \cdot B_{11} = \som{12} \cdot \som{6}  = \som{72}  & \\
+  & P_{4}  = A_{22} \cdot S_{4}  = \som{5}  \cdot \som{-2} = \som{-10} & \\
+  & P_{5}  = S_{5}  \cdot S_{6}  = \som{6}  \cdot \som{8}  = \som{48}  & \\
+  & P_{6}  = S_{7}  \cdot S_{8}  = \som{-2} \cdot \som{6}  = \som{-12} & \\
+  & P_{7}  = S_{9}  \cdot S_{10} = \som{-6} \cdot \som{14} = \som{-84} &
+\end{flalign*}
+
+With these values in hand, we can finally build the resulting $C$ matrix by
+conveniently performing sum operations on the previous products:
+
+\begin{flalign*}
+  & C_{11} = P_{5} + P_{4} - P_{2} + P_{6} = \som{48} + \som{-10} - \som{8} + \som{-12} = \som{18} & \\
+  & C_{12} = P_{1} + P_{2} = \som{6} + \som{8} = \som{14} & \\
+  & C_{21} = P_{3} + P_{4} = \som{72} + \som{-10} = \som{62} & \\
+  & C_{22} = P_{5} + P_{1} - P_{3} - P_{7} = \som{48} + \som{16} - \som{72} - \som{-84} = \som{66} &
+\end{flalign*}
+
+Thus, the result of the multiplication is
+
+\begin{equation*}
+  \begin{pmatrix}
+    18 & 14 \\
+    62 & 66
+  \end{pmatrix}
+\end{equation*}
+
+\begin{framed}
+  \textbf{\textit{4.2-2}} \\
+  \textit{Write pseudocode for Strassen's algorithm.}
+\end{framed}
+
+  In order to apply Strassen's algorithm for matrix multiplication, we need first
+to be able to apply the sum and difference of matrices. The following auxiliary
+procedures are sufficient for that (both $\Theta(n^{2})$):
+
+\begin{codebox}
+  \Procname{$\proc{Matrix-Sum}(A, B)$}
+  \li \For $j \gets 1$ \To $\attrib{A}{rows}$
+        \Do
+  \li     \For $i \gets 1$ \To $\attrib{B}{columns}$
+            \Do
+  \li         $C[j][i] = A[j][i] + B[j][i]$
+            \End
+      \End
+  \li \Return $C$
+\end{codebox}
+
+\begin{codebox}
+  \Procname{$\proc{Negative}(M)$}
+  \li \For $j \gets 1$ \To $\attrib{M}{rows}$
+        \Do
+  \li     \For $i \gets 1$ \To $\attrib{M}{columns}$
+            \Do
+  \li         $N[j][i] = -1 \cdot M[j][i]$
+            \End
+      \End
+  \li \Return $N$
+\end{codebox}
+
+\newpage
+  With those procedures, we can write the pseudocode for Strassen's algorithm
+as follows:
+
+\begin{codebox}
+  \Procname{$\proc{Strassen-Multiplication}(A, B)$}
+  \li \Comment recursion base case
+  \li \If $\attrib{A}{rows} == 1$
+        \Then
+  \li     $C[1][1] = A[1][1] \cdot B[1][1]$
+  \li     \Return $C$
+        \End
+  \li
+  \li \Comment calculate each of the sums
+  \li $S_{1}  = \proc{Matrix-Sum}(B_{12}, \proc{Negative}(B_{22}))$
+  \li $S_{2}  = \proc{Matrix-Sum}(A_{11}, A_{12})$
+  \li $S_{3}  = \proc{Matrix-Sum}(A_{21}, A_{22})$
+  \li $S_{4}  = \proc{Matrix-Sum}(B_{21}, \proc{Negative}(B_{11}))$
+  \li $S_{5}  = \proc{Matrix-Sum}(A_{11}, A_{22})$
+  \li $S_{6}  = \proc{Matrix-Sum}(B_{11}, B_{22})$
+  \li $S_{7}  = \proc{Matrix-Sum}(A_{12}, \proc{Negative}(A_{22}))$
+  \li $S_{8}  = \proc{Matrix-Sum}(B_{21}, B_{22})$
+  \li $S_{9}  = \proc{Matrix-Sum}(A_{11}, \proc{Negative}(A_{21}))$
+  \li $S_{10} = \proc{Matrix-Sum}(B_{11}, B_{12})$
+  \li
+  \li \Comment calculate each of the products (7 recursive calls)
+  \li $P_{1} = \proc{Strassen-Multiplication}(A_{11}, S_{1})$
+  \li $P_{2} = \proc{Strassen-Multiplication}(S_{2}, B_{22})$
+  \li $P_{3} = \proc{Strassen-Multiplication}(S_{3}, B_{11})$
+  \li $P_{4} = \proc{Strassen-Multiplication}(A_{22}, S_{4})$
+  \li $P_{5} = \proc{Strassen-Multiplication}(S_{5}, S_{6})$
+  \li $P_{6} = \proc{Strassen-Multiplication}(S_{7}, S_{8})$
+  \li $P_{7} = \proc{Strassen-Multiplication}(S_{9}, S_{10})$
+  \li
+  \li \Comment build each quarter of the resulting matrix
+  \li \Comment $C_{11} = P_{5} + P_{4} - P_{2} + P_{6}$
+  \li $\id{temp} = \proc{Matrix-Sum}(P_{5}, P_{4})$
+  \li $\id{temp} = \proc{Matrix-Sum}(\id{temp}, \proc{Negative}(P_{2}))$
+  \li $C_{11} = \proc{Matrix-Sum}(\id{temp}, P_{6})$
+  \li
+  \li \Comment $C_{12} = P_{1} + P_{2}$
+  \li $C_{12} = \proc{Matrix-Sum}(P_{1}, P_{2})$
+  \li
+  \li \Comment $C_{21} = P_{3} + P_{4}$
+  \li $C_{21} = \proc{Matrix-Sum}(P_{3}, P{4})$
+  \li
+  \li \Comment $C_{22} = P_{5} + P_{1} - P_{3} - P_{7}$
+  \li $\id{temp} = \proc{Matrix-Sum}(P_{5}, P_{1})$
+  \li $\id{temp} = \proc{Matrix-Sum}(\id{temp}, \proc{Negative}(P_{3}))$
+  \li $C_{22} = \proc{Matrix-Sum}(\id{temp}, \proc{Negative}(P_{7}))$
+  \li
+  \li \Return $C$
+\end{codebox}
+
+\begin{framed}
+\textbf{\textit{4.2-6}} \\
+\textit{How quickly can you multiply a $kn \times n$ matrix, using Strassen's
+algorithm as a subroutine? Answer the same question with the order of the input
+matrices reversed.}
+\end{framed}
+
+For multiplication of $kn \times n$ matrices, we can use the same idea of the
+Strassen's algorithm, dividing each matrix in four equal parts. Following this
+logic, the algorithm's base case will happen when we have a multiplication
+between a $k \times 1$ and a $1 \times k$ matrix, resulting on a $k \times k$
+matrix. If we sketch the recursion tree for that, we will still have a tree with
+$\lg 7$ height, since the basic Strassen idea still holds. However, each leaf
+scenario, instead of taking $\Theta(1)$ time, will take $\Theta(k^{2})$ time
+instead. Thus, the complexity of the algorithm in this case will be
+$\Theta(k^{2} n^{\lg 7})$. \\
+
+On the other hand, if the matrix multiplication is between a $n \times kn$ matrix
+and a $kn \times n$ matrix, the complexity changes. That is because, following an
+idea similar as the one just described, the base case for the algorithm will be a
+multiplication between $1 \times k$ and $k \times 1$ matrices, yielding a $1 \times 1$
+square matrix. Opposed to the previous scenario, this base case happens in linear
+time, $\Theta(k)$, and hence the complexity of the whole algorithm is $\Theta(k n^{lg 7})$.
+
+\begin{framed}
+\textbf{\textit{4.2-7}} \\
+\textit{Show how to multiply the complex numbers $a + bi$ and $c + di$ using only three
+multiplications of real numbers. The algorithm should take $a$, $b$, $c$ and $d$ as input
+and produce the real component $ac - bd$ and the imaginary component $ad + bc$ separately.}
+\end{framed}
+
+  It is easy to notice than an idea similar to the one present on the Strassen's algorithm
+should be applied here. In this case however, the manipulations are much more simple and
+straightforward than on that algorithm. \\
+
+  Let's first consider the following sums:
+
+\begin{flalign*}
+  & S_{1}  = a + b & \\
+  & S_{2}  = c + d &
+\end{flalign*}
+
+And define the following (three) multiplications of real numbers:
+
+\begin{flalign*}
+  & P_{1}  = a \cdot c & \\
+  & P_{2}  = b \cdot d & \\
+  & P_{3}  = S_{1} \cdot S_{2} &
+\end{flalign*}
+
+Thus, if we denote by $R$ and $I$ the real and imaginary components of the resulting
+complex multiplication, respectively, we have:
+
+\begin{flalign*}
+  & R = P_{1} - P_{2} & \\
+  & I = P_{3} - P_{1} - P_{2} &
+\end{flalign*}
+
+\begin{framed}
+\textbf{\textit{4.3-1}} \\
+\textit{Show that the solution of $T(n) = T(n - 1) + n$ is $O(n^{2})$.}
+\end{framed}
+
+  Let's assume that the $T(n) \leq cn^{2}$, for a given $c > 1$ for all $m < n$. Then,
+for $m = n - 1$, we have:
+
+\begin{equation*}
+  T(m) = T(n - 1) \leq c(n - 1)^{2}
+\end{equation*}
+
+  And then we can solve the recursion:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq c(n - 1)^{2} + n \\
+    = c(n^{2} - 2n + 1) + n \\
+    = cn^{2} - 2cn + c + n \\
+    \leq cn^2, \forall c \geq 1, n \geq 1
+  \end{split}
+\end{equation*}
+
+\begin{framed}
+\textbf{\textit{4.3-1}} \\
+\textit{Show that the solution of $T(n) = T(\lceil \frac{n}{2} \rceil) + 1$ is $O(\lg n)$.}
+\end{framed}
+
+  Let's assume that the $T(n) \leq c\lg n$, for a given $c > 1$ for all $m < n$. Then,
+for $m = \lceil \frac{n}{2} \rceil$, we have:
+
+\begin{equation*}
+  T(m) = T(\lceil \frac{n}{2} \rceil) \leq c\lg \left( \lceil \frac{n}{2} \rceil \right)
+\end{equation*}
+
+  And then we can solve the recursion:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq c\lg\left( \lceil \frac{n}{2} \rceil \right) + 1 \\
+    = c\lg n - c\lg 2 + 1 \\
+    = c\lg n - c + 1 \\
+    \leq c\lg n, \forall c > 1
+  \end{split}
+\end{equation*}
+
+\begin{framed}
+\textbf{\textit{4.3-6}} \\
+\textit{Show that the solution of $T(n) = 2T(\lfloor \frac{n}{2} \rfloor + 17) + n$ is $O(n \lg n)$.}
+\end{framed}
+
+  For this proof, we have to insert a lower-order, constant factor $d$ to our hypothesis
+in order to perform the inductive step. Let's assume that the following inequality holds
+for $m < n$:
+
+\begin{equation*}
+  T(\lfloor \frac{n}{2} \rfloor + 17) \leq c\left( \lfloor \frac{n}{2} \rfloor + 17 - d \right) \lg \left( \lfloor \frac{n}{2} \rfloor + 17 - d \right)
+\end{equation*}
+
+  Therefore, basing our inductive step on the previous assumption:
+
+\begin{equation*}
+  T(n) \leq 2c \left(\lfloor \frac{n}{2} \rfloor + 17 - d\right) \lg \left( \lfloor \frac{n}{2} \rfloor + 17 - d \right) + n \\
+\end{equation*}
+
+  Choosing any $d > 17$, we have:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq 2c \left( \frac{n}{2} \right) \lg \left( \frac{n}{2} \right) + n \\
+    = cn\lg n - cn + n \\
+    \leq cn\lg n, \forall c > 1
+  \end{split}
+\end{equation*}
+
+which proves our hypothesis.
+
+\begin{framed}
+\textbf{\textit{4.3-7}} \\
+\textit{Using the master method in Section 4.5, you can show that the solution to the recurrence
+$T(n) = 4T(\frac{n}{3}) + n$ is $T(n) = \Theta(n^{log_{3} 4})$. Show that a substitution proof
+with the assumption $T(n) \leq cn^{log_{3} 4}$ fails. Then show how to subtract off a lower-order
+term to make a substitution proof work.}
+\end{framed}
+
+  Assuming that the hypothesis holds for $m = \frac{n}{3}$:
+
+\begin{equation*}
+  T\left(\frac{n}{3}\right) \leq c \left(\frac{n}{3}\right)^{log_{3} 4} = \frac{cn^{log_{3} 4}}{4}
+\end{equation*}
+
+  Then, if we try to perform the inductive step using the previous inequality:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq 4c\left(\frac{n^{log_{3} 4}}{4}\right) + n \\
+    = cn^{log_{3} 4} + n
+  \end{split}
+\end{equation*}
+
+and the above result cannot be used as proof that $T(n) \leq cn^{log_{3} 4}$. \\
+
+  However, we can choose to subtract a lower-order term to make the substituion proof
+work. In this case, we can still prove that $T(n) = \Theta(n^{log_{3} 4})$ if we can prove
+that $T(n) \leq cn^{log_{3} 4} - dn$, for some constant $d > 1$. Therefore, our hypothesis
+can be restated as:
+
+\begin{equation*}
+  T\left(\frac{n}{3}\right) \leq c\left(\frac{n}{3}\right)^{log_{3} 4} - d\frac{n}{3}
+\end{equation*}
+
+and our inductive step becomes:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq 4c\left(\left(\frac{n}{3}\right)^{log_{3} 4} - d\frac{n}{3}\right) + n \\
+    = cn^{log_{3} 4} - \frac{4}{3} cdn + n \\
+    \leq cn^{log_{3} 4}, \forall c > 1, d > 1
+  \end{split}
+\end{equation*}
+
+  With the previous result, we have proved that $T(n) \leq cn^{log_{3} 4}$.
+
+\begin{framed}
+\textbf{\textit{4.3-9}} \\
+\textit{Solve the recurrence $T(n) = 3T(\sqrt{n}) + \log n$ by making a change of variables.
+Your solution should be asymptotically tight. Do not worry whether values are integral.}
+\end{framed}
+
+  Assuming that $m = \log n$, we can rewrite the given recurrence as $T(2^{m}) = 3T(2^{\frac{m}{2}}) + m$,
+and assigning $S(m) = T(2^{m})$, we have that $S(m) = 3S(\frac{m}{2}) + m$, which seems much easier
+to manipulate. \\
+
+  Taking a guess that $S(m) = \Theta(m^{\log 3})$, and assuming it holds for $p = \frac{m}{2}$, we have
+our hypothesis:
+
+\begin{equation*}
+  S\left(\frac{m}{2}\right) \leq cm^{\log 3} - d\frac{m}{2}
+\end{equation*}
+
+  In our hypothesis, we subtract a lower-order term, in which $d$ is a constant such that $d > 1$, in
+order to allow us to use the substitution method to prove our hypothesis. Then, performing the
+inductive step upon that assumption:
+
+\begin{equation*}
+  \begin{split}
+    S(m) \leq 3c\left(\left(\frac{m}{2}\right)^{\log 3} - d\frac{m}{2}\right) + m \\
+    = \frac{3}{2^{\log 3}}cm^{\log 3} - \frac{3}{2} cdm + m \\
+    = cm^{\log 3} - \frac{3}{2} cdm + m \\
+    \leq cm^{\log 3}, \forall c > 1, d > 1
+  \end{split}
+\end{equation*}
+
+  Therefore, we have that $S(m) = \Theta(m^{\log 3})$. Undoing the variable substitution we performed
+at the beginning of the demonstration:
+
+\begin{equation*}
+  m = \log n \Rightarrow T(n) = \Theta(\log^{\log 3} n)
+\end{equation*}
+
+\begin{framed}
+\textbf{\textit{4.5-1}} \\
+\textit{Use the master method to give tight asymptotic bounds for the following recurrences:}
+\end{framed}
+
+\subsubsection*{a}
+
+\begin{equation*}
+  T(n) = 2T\left(\frac{n}{4}\right) + 1
+\end{equation*}
+
+$a = 2, b = 4, f(n) = 1$ \\
+
+$n^{log_{b} a} = n^{log_{4} 2} = \Theta(n^{\frac{1}{2}})$ \\
+
+$f(n) = O(n^{\frac{1}{2} - \epsilon}), \epsilon = 0.1$ \\
+
+Therefore, $T(n) = \Theta(\sqrt{n})$.
+
+\subsubsection*{b}
+
+\begin{equation*}
+	T(n) = 2T\left(\frac{n}{4}\right) + \sqrt{n}
+\end{equation*}
+
+Basing on our work in item \textbf{a}, we have that $f(n) = \Theta(n^{log_{b} a})$.
+Hence, $T(n) = \Theta(\sqrt{n} \lg n)$.
+
+\subsubsection*{c}
+
+\begin{equation*}
+	T(n) = 2T\left(\frac{n}{4}\right) + n
+\end{equation*}
+
+$f(n) = \Omega(n^{\frac{1}{2} + \epsilon}), \epsilon = 0.1$. Therefore, $T(n) = \Theta(n)$.
+
+\subsubsection*{d}
+
+\begin{equation*}
+	T(n) = 2T\left(\frac{n}{4}\right) + n^{2}
+\end{equation*}
+
+Along the same lines of \textbf{c}, we have that $T(n) = \Theta(n^{2})$.
+
+\begin{framed}
+\textbf{\textit{4.5-2}} \\
+\textit{Professor Caesar wishes to develop a matrix-multiplication algorithm that is
+asymptotically faster than Strassen's  algorithm. His algorithm will use the divide-
+and-conquer method, dividing each matrix into pieces of size $\frac{n}{4} \times \frac{n}{4}$,
+and the divide and combine steps together will take $\Theta(n^{2})$ time. He needs
+to determine how many subproblems his algorithm has to create in order to beat
+Strassen's algorithm. If his algorithm creates $a$ subproblems, then the recurrence
+for the running time $T(n)$ becomes $T(n) = aT(\frac{n}{4}) + \Theta(n^{2})$. What
+is the largest integer value for $a$ for which Professor Caesar's algorithm would
+be asymptotically faster than Strassen's algorithm?}
+\end{framed}
+
+For Professor Caesar's algorithm run time, we have $b = 4$ and $f(n) = \Theta(n^{2})$.
+As we know, Strassen's algorithm runs in $\Theta(n^{\lg 7})$ time and therefore, to acheive
+our goal, we must have $n^{\log_{4} a} = O(n^{\lg 7})$. From that, follows:
+
+\begin{equation*}
+  \begin{split}
+    n^{log_{4} a} < n^{\lg 7} \\
+    \Rightarrow log_{4} a < \lg 7 = \frac{log_{4} 7}{log_{4} 2} \\
+    \Rightarrow log_{4} a < 2 log_{4} 7 \\
+    \Rightarrow \log_{4} a < log_{4} 49 \\
+    \Rightarrow a < 49
+  \end{split}
+\end{equation*}
+
+  Hence, Professor Caesar can create up to 48 subproblems to beat Strassen's algorithm
+runtime.
+
+\newpage
+
+\begin{framed}
+\textbf{\textit{4.5-3}} \\
+\textit{Use the master method to show that the solution to the binary-search recurrence
+$T(n) = T(\rfrac{n}{2}) + \Theta(1)$ is $T(n) = \Theta(\lg n)$.}
+\end{framed}
+
+  From the binary-search recurrence equation, we have $a = 1$, $b = 2$ and $f(n) = \Theta(1)$.
+Also, $n^{log_{b} a} = n^{log_{2} 1} = n^{0} = 1 = \Theta(1)$. \\
+
+  Since $n^{log_{b} a} = \Theta(f(n))$, we fall in the case $2$ of the master method, and
+therefore conclude that the running time of the binary-search algorithm is $T(n) = \Theta(\lg n)$.
+
+\begin{framed}
+\textbf{\textit{4.5-4}} \\
+\textit{Can the master method be applied to the recurrence $T(n) = 4T(\rfrac{n}{2}) + n^{2}\lg n$?
+Why or why not? Give an asymptotic upper bound for this recurrence.}
+\end{framed}
+
+  From the recurrence equation, we have that $a = 4$, $b = 2$ and $f(n) = n^{2}\lg n$. Then,
+$n^{log_{b} a} = n^{log_{2} 4} = n^{2}$. Even though $f(n) = \Omega(n^{log_{b} a})$, there is
+no $\epsilon > 0$ for which $f(n) = \Omega(n^{log_{b} a + \epsilon})$. In other words, $f(n)$
+is not polynomially larger than $n^{log_{b} a} = n^{2}$. \\
+
+  Let our hypothesis be that $T(n) = \Theta(n^{2}\lg^{2} n)$, and let us prove it using
+the substitution method. Assuming that our hypothesis holds for $m = \rfrac{n}{2}$, then:
+
+\begin{equation*}
+  T\left(\frac{n}{2}\right) \leq c\left(\frac{n}{2}\right)^{2} \lg^{2} \frac{n}{2}
+\end{equation*}
+
+  Using that result, we have:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq 4 \cdot c \cdot \frac{n^{2}}{4}(\lg n - 1)^{2} + n^{2}\lg n \\
+    = cn^{2}\lg^{2} n - 2cn^{2}\lg n + cn^{2} + n^{2}\lg n \\
+    = cn^{2}\lg^{2} n -n^{2}((2c - 1)\lg n - c) \\
+    \leq cn^{2}\lg^{2} n, c > 1, n > 2
+  \end{split}
+\end{equation*}
+
+  With the result above, we conclude that $T(n) = \Theta(n^{2}\lg^{2} n)$.
+
+\end{document}
