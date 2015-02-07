@@ -1,0 +1,592 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+\usepackage{amsmath}
+\usepackage{relsize}
+\usepackage{multicol}
+
+\begin{document}
+
+\section*{Problems}
+
+\begin{framed}
+\textbf{\textit{3-1} Asymptotic behavior of polynomials}
+\end{framed}
+
+\subsubsection*{a}
+
+  To prove that $p(n) = O(n^{k})$, we must establish an upper bound for $p(n)$
+in terms of $n^{k}$:
+
+\begin{equation*}
+ \begin{split}
+    p(n) \leq \sum_{i = 0}^{d} |a_{i}|n^{i} \leq \sum_{i = 0}^{d} |a_{i}|n^{k}, \forall k \geq d, n \geq 1 \\
+    \Rightarrow p(n) \leq \left(\sum_{i = 0}^{d} |a_{ i}|\right) n^{k}
+  \end{split}
+\end{equation*}
+
+  Thus, if we take $c = \mathlarger{\sum}_{i = 0}^{d} |a_{i}|$ and $n_{0} = 1$, we prove that $p(n) = O(n^{k})$.
+
+\subsubsection*{b}
+
+  We can establish a general relationship between $p(n)$, $n_{0}$ and $c$ with the following:
+
+\begin{equation*}
+  \begin{split}
+    p(n) \leq \sum_{i = 0}^{d} |a_{i}|n^{i} \leq \sum_{i = 0}^{d} |a_{i}|n^{d}, \forall n \geq 1 \\
+    \Rightarrow p(n) \leq \left(\sum_{i = 0}^{d} |a_{i}| n^{d - k}\right) n^{k}
+  \end{split}
+\end{equation*}
+
+  If we take $c = \mathlarger{\sum}_{i = 0}^{d} |a_{i}| n_{0}^{d - k}$, then we must take $n_{0}$ such that:
+
+\begin{equation*}
+  \sum_{i = 0}^{d} n_{0}^{d - k} = c \Rightarrow n_{0}^{d - k} = \frac{c}{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}
+    \Rightarrow n_{0} = \sqrt[d - k]{\frac{c}{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}}
+\end{equation*}
+
+  To prove our hypothesis, we will need the result above and take an auxiliary polynomial function $p'(n)$ such that:
+
+\begin{equation*}
+  p'(n) = -p(n) + a_{d}n^{d} \Rightarrow p'(n) = \sum_{i = 0}^{d - 1} -a_{i} n^{i}
+\end{equation*}
+
+  As $p'(n)$ is also a polynomial function, it satisfies our equation above. Taking an arbitrary real constant $c' > 1$
+and choosing $c = \mathlarger{\frac{a_{d}}{c'}}$, we have:
+
+\begin{equation*}
+  \begin{split}
+    p'(n) \leq \left(\frac{a_{d}}{c'}\right) n^{d}, \forall n \geq \frac{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}{\mathlarger{\frac{a_{d}}{c'}}} \\
+    \Rightarrow \sum_{i = 0}^{d - 1} -a_{i} n^{i} \leq \left(\frac{a_{d}}{c'}\right) n^{d} \\
+    \Rightarrow \sum_{i = 0}^{d - 1} a_{i} n^{i} \geq - \left(\frac{a_{d}}{c'}\right) n^{d} \\
+    \Rightarrow \sum_{i = 0}^{d} a_{i} n^{i} \geq \left(\frac{c' - 1}{c'} a_{d}\right) n^{d} \\
+    \Rightarrow \sum_{i = 0}^{d} a_{i} n^{i} \geq \left(\frac{c' - 1}{c'} a_{d}\right) n^{k}, \forall k \leq d \\
+  \end{split}
+\end{equation*}
+
+  Hence, if we take $c' > 1$, $c = \mathlarger{\frac{c' - 1}{c'}} a_{d}$ and
+$n_{0} = \mathlarger{\sqrt[d - k]{\mathlarger{\frac{\frac{a_{d}}{c'}}{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}}}}$
+then we have that $p(n) = \Omega(n^{k})$.
+
+\subsubsection*{c}
+
+  By definition, from the above two demonstrations we have that $p(n) = \Theta(n^{k})$.
+
+\subsubsection*{d}
+
+  We have to find $c > 0$ such that for all $n > n_{0}$, $p(n) < cn^{k}$.
+However, as our previous general equation gave us a value for $n_{0}$ that depends
+only on the constant $c$ chosen, we can take $n_{0} = \mathlarger{\sqrt[d - k]{\frac{c}{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}}}$.
+As $k > d$, then $p(n) = \omega(n^{k})$.
+
+\subsubsection*{e}
+
+Akin to what we did on \textbf{b} to prove the $\Omega(n^{k})$ property, we now can take
+$n_{0} = \mathlarger{\sqrt[d - k]{\mathlarger{\frac{\frac{a_{d}}{c'}}{\mathlarger{\sum}_{i = 0}^{d} |a_{i}|}}}}$.
+As $k < d$, we have $p(n) = o(n^{k})$.
+
+\newpage
+
+\begin{framed}
+  \textbf{\textit{3-2} Relative asymptotic growths}
+\end{framed}
+
+  Interesting points when comparing such functions:
+
+\begin{itemize}
+  \item $\sqrt{n}$ and $n^{\sin n}$ cannot be compared because as $\sin n$ oscilates
+    between $-1$ and $1$, $n^{\sin n}$ also oscilates between $\mathlarger{\frac{1}{n}}$
+    and $n$.
+
+  \item By the rules of logarithms, $n^{\lg c} = c^{\lg n}$, thus these functions grow
+    by the same rate asymptotically.
+
+  \item Using equation (3.19), we know that $\lg(n!) = \Theta(n \lg n)$. But, by the rules
+    of logarithms, $\lg(n^{n}) = n \lg n$. Hence, both functions grow by the same rate
+    asymptotically.
+\end{itemize}
+
+\begin{center}
+  \begin{tabular}{@{\extracolsep{\fill}} c *{6}{c|} }
+    $A$         & $B$               & $O$ & $o$ & $\Omega$ & $\omega$ & $\Theta$ \\
+    \hline
+    $\lg^{k} n$ & $n^{\epsilon}$    & yes & yes & no       & no       & no  \\
+    \hline
+    $n^{k}$     & $c^{n}$           & yes & yes & no       & no       & no  \\
+    \hline
+    $\sqrt{n}$  & $n^{\sin n}$      & no  & no  & no       & no       & no  \\
+    \hline
+    $2^{n}$     & $2^{\frac{n}{2}}$ & no  & no  & yes      & yes      & no  \\
+    \hline
+    $n^{\lg c}$ & $c^{\lg n}$       & yes & no  & yes      & no       & yes \\
+    \hline
+    $\lg(n!)$   & $\lg(n^{n})$      & yes & no  & yes      & no       & yes \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\begin{framed}
+  \textbf{\textit{3-3} Ordering by asymptotic growth rates}
+\end{framed}
+
+\subsubsection*{a}
+
+  The sequence of functions such that $g_{1} = \Omega(g_{2})$, $g_{2} = \Omega(g_{3})$, ...,
+$g_{29} = \Omega(g_{30})$ is:
+
+\begin{multicols}{3}
+  \noindent
+  $g_{1}      = 2^{2^{n + 1}}$                \\
+  $g_{2}      = 2^{2^{n}}$                    \\
+  $g_{3}      = (n + 1)!$                     \\
+  $g_{4}      = n!$                           \\
+  $g_{5}      = e^{n}$                        \\
+  $g_{6}      = n2^{n}$                       \\
+  $g_{7}      = 2^{n}$                        \\
+  $g_{8}      = \left(\frac{3}{2}\right)^{n}$ \\
+  $g^{1}_{9}  = n^{\lg \lg n}$                \\
+  $g^{1}_{10} = (\lg n)^{\lg n}$              \\
+  $g_{11}     = (\lg n)!$                     \\
+  $g_{12}     = n^{3}$                        \\
+  $g^{2}_{13} = n^{2}$                        \\
+  $g^{2}_{14} = 4^{\lg n}$                    \\
+  $g^{3}_{15} = n \lg n$                      \\
+  $g^{3}_{16} = \lg (n!)$                     \\
+  $g_{17}     = 2^{\lg n}$                    \\
+  $g_{18}     = n$                            \\
+  $g_{19}     = (\sqrt{2})^{\lg n}$              \\
+  $g_{20}     = 2^{\sqrt{2 \lg n}}$           \\
+  $g_{21}     = \lg^{2} n$                    \\
+  $g_{22}     = \ln n$                        \\
+  $g_{23}     = \sqrt{\lg n}$                 \\
+  $g_{24}     = \ln \ln n$                    \\
+  $g_{25}     = 2^{\lg^{*} n}$                \\
+  $g^{4}_{26} = \lg^{*} n$                    \\
+  $g^{4}_{27} = \lg^{*}(\lg n)$               \\
+  $g_{28}     = \lg(\lg^{*} n)$               \\
+  $g^{5}_{29} = n^{\frac{1}{\lg n}}$          \\
+  $g^{5}_{30} = 1$                            \\
+\end{multicols}
+
+  Functions that share the same superscript grow by the same rate asymptotically.
+
+  A few points worth mentioning when ordering the functions above:
+
+\begin{itemize}
+  \item From the theories and proofs from the book, we know that exponential functions
+    grow faster than polynomial functions, which in turn grow faster than polylogarithmic
+    functions.
+
+  \item Equation (3.16) shows that $a^{\log_{b} c} = c^{\log_{b} a}$. Thus, we have that
+    $(\lg n)^{\lg n} = n^{\lg \lg n}$ and that $4^{\lg n} = n^{2}$.
+
+  \item Following the rules of logarithms, we have:
+
+    \begin{itemize}
+      \item $2^{\lg n} = n^{\lg 2} = n$
+      \item $n^{\frac{1}{\lg n}} = (2^{\lg n})^{\frac{1}{\lg n}} = 2$
+      \item $(\sqrt{2})^{\lg n} = 2^{(\frac{1}{2}) \lg n)} = 2^{\lg \sqrt{n}} = (\sqrt{n})^{\lg 2} = \sqrt{n}$
+    \end{itemize}
+\end{itemize}
+
+\subsubsection*{b}
+
+  As the function $f(n)$ cannot be either $O(g_{i}(n))$ or $\Omega(g_{i}(n))$, we need to find
+a function that can be, informally speaking, larger that the largest function and smaller than
+the smallest function for big enough values of $n$ in such a way that makes the functions
+incomparable.
+
+  A function that possesses these attributes is $2^{2^{n} + 1} (\sin n + 1)$. It can grow
+as large as $g_{1}$, while it can also get smaller than $g_{30}$. As it oscillates between these two
+extremes, it cannot be compared to any $g_{i}$.
+
+\begin{framed}
+  \textbf{\textit{3-4} Asymptotic notation properties}
+\end{framed}
+
+\subsubsection*{a}
+
+  Let's suppose that there is a constant $c > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    g(n) = O(f(n)) \\
+    \Rightarrow g(n) \leq c f(n) \\
+    \Rightarrow \left(\frac{1}{c}\right) g(n) \leq f(n)
+  \end{split}
+\end{equation*}
+
+  However, as $f(n) = O(g(n))$, there is another constant $c' > 0$ such that:
+
+\begin{equation*}
+  \left(\frac{1}{c}\right) g(n) \leq f(n) \leq c' g(n)
+\end{equation*}
+
+  Thus, we ultimately have that $f(n) = \Theta(g(n))$ for that to be true. As this information
+is not given and we cannot assume so, we conclude that the conjecture is \textbf{false}.
+
+\subsubsection*{b}
+
+  Since $f(n)$ and $g(n)$ are asymptotically positive, we assume that:
+
+\begin{equation*}
+  min(f(n), g(n)) \leq f(n) + g(n)
+\end{equation*}
+
+  If $f(n) + g(n) = \Theta(min(f(n), g(n)))$, then there is a constant $c > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    f(n) + g(n) \leq c \cdot min(f(n), g(n)) \\
+    \Rightarrow \frac{f(n) + g(n)}{c} \leq min(f(n), g(n))
+  \end{split}
+\end{equation*}
+
+which is only true if $f(n) = \Theta(g(n))$. As this information is not given and we cannot
+assume so, we conclude that the conjecture is \textbf{false}.
+
+\subsubsection*{c}
+
+  As the logarithm function is asymptotically increasing, we can peform the following
+manipulations:
+
+\begin{equation*}
+  \begin{split}
+    f(n) = O(g(n)) \\
+    \Rightarrow f(n) \leq c g(n) \\
+    \Rightarrow \lg(f(n)) \leq \lg(c g(n)) \\
+    \Rightarrow \lg(f(n)) \leq \lg c + \lg(g(n))
+  \end{split}
+\end{equation*}
+
+  We need to find a constant $c' > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    c' \lg(g(n)) = \lg c + \lg(g(n)) \\
+    \Rightarrow c' = \mathlarger{1 + \frac{\lg c}{\lg(g(n))}}
+  \end{split}
+\end{equation*}
+
+  As the problem states that $\lg(g(n)) \geq 1$, we can take any $c' \geq 1$ and the
+equation above will be satisfied. Thus, the conjecture is \textbf{true}.
+
+\subsubsection*{d}
+
+  Let's suppose there is a constant $c > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    2^{f(n)} \leq c 2^{g(n)} \\
+    \Rightarrow \mathlarger{\frac{2^{f(n)}}{2^{g(n)}}} \leq c \\
+    \Rightarrow c \geq 2^{f(n) - g(n)}
+  \end{split}
+\end{equation*}
+
+  As $c$ is supposed to be a constant and cannot depend on $n$, we hit a
+contradiction. Thus, the conjecture is \textbf{false}.
+
+\subsubsection*{e}
+
+  Let's suppose there is a constant $c > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    f(n) \leq c(f(n))^{2} \\
+    \Rightarrow c f(n) \geq 1 \\
+    \Rightarrow c \geq \frac{1}{f(n)}
+  \end{split}
+\end{equation*}
+
+  As we cannot assume $f(n) > 1$ for large values of $n$, $c$ is dependent on
+$f(n)$ and we hit a contradiction. Thus, the conjecture is \textbf{false}.
+
+\subsubsection*{f}
+
+\begin{equation*}
+  \begin{split}
+    f(n) = O(g(n)) \\
+    \Rightarrow f(n) \leq c g(n), c > 0 \\
+    \Rightarrow g(n) \geq \left(\frac{1}{c}\right) f(n)
+  \end{split}
+\end{equation*}
+
+  Thus, if we choose $c' = \frac{1}{c}$, we have that $g(n) \geq c' f(n)$,
+which makes the conjecture \textbf{true}.
+
+\subsubsection*{g}
+
+  Let's suppose there is a constant $c > 0$ such that:
+
+\begin{equation*}
+  \begin{split}
+    f(n) \leq c f\left(\frac{n}{2}\right) \\
+    \Rightarrow c \geq \frac{f(n)}{f\left(\frac{n}{2}\right)}
+  \end{split}
+\end{equation*}
+
+  Depending on the chosen $f(n)$, $c$ can depend on the value of $n$. Take
+$f(n) = a^{n}, a > 1$, for instance:
+
+\begin{equation*}
+  c \geq \frac{a^{n}}{a^{\frac{n}{2}}} \Rightarrow c \geq a^{\frac{n}{2}}
+\end{equation*}
+
+and we hit a contradiction. Thus, the conjecture is \textbf{false}.
+
+\subsubsection*{h}
+
+\begin{equation*}
+  \begin{split}
+    f(n) + o(g(n)) \leq f(n) + cf(n), c > 0 \\
+    \Rightarrow f(n) + o(g(n)) \leq (c + 1)f(n)
+  \end{split}
+\end{equation*}
+
+  Thus, we have that the conjecture is \textbf{true}.
+
+\begin{framed}
+  \textbf{\textit{3-5 - Variations on $O$ and $\Omega$}}
+\end{framed}
+
+\subsubsection*{a}
+
+  By definiton, we have that:
+
+\begin{equation*}
+  \begin{split}
+    f(n) = O(g(n)) \Rightarrow 0 \leq f(n) \leq c g(n), \forall c > 0, n \geq n_{0} > 0
+  \end{split}
+\end{equation*}
+
+  However, as both $f(n)$ and $g(n)$ are asymptotically nonnegative, we can
+infer that the following inequality also holds for the same function $f(n)$:
+
+\begin{equation*}
+  f(n) \geq c' g(n) \geq 0, \forall c' > 0, n \in [n', n_{0})
+\end{equation*}
+
+where $n'$ is a root of $f(n)$. As $n_{0}$ can be as grow as big as we want
+and still hold $f(n) = O(g(n))$, there are infinitely many integers $n$ for
+which the inequality above holds. Hence, $f(n) = \overset{\infty}{\Omega}(g(n))$.
+
+\subsubsection*{b}
+
+  Advantages:
+
+\begin{itemize}
+  \item provides a lower bound for some values of $n$
+  \item may be useful for determining lower bounds in best case scenarios
+\end{itemize}
+
+  Disadvantages:
+
+\begin{itemize}
+  \item may or may not be related to asymptotic behavior
+  \item does not help determining the running time of an algorithm
+\end{itemize}
+
+\subsubsection*{c}
+
+\begin{equation*}
+  \begin{split}
+    f(n) = O'(g(n)) \Rightarrow |f(n)| \leq c g(n), c > 0, n > n_{0} \\
+    \Rightarrow f(n) \leq |f(n)| \leq c g(n) \Rightarrow f(n) \leq c g(n)
+  \end{split}
+\end{equation*}
+
+  However, the $O$ notation also enforces that $f(n) \geq 0$, where as $O'$
+does not. Hence, Theorem 3.1 could be rewritten as:
+
+\begin{quotation}
+  For any two functions $f(n)$ and $g(n)$, we have $f(n) = \Theta(g(n))$ if and
+  only if $f(n) = O'(g(n))$ and $f(n) = \Omega(g(n))$ for all asymptotically nonnegative
+  $f(n)$.
+\end{quotation}
+
+\subsubsection*{d}
+
+\begin{equation*}
+  f(n) = \overset{\sim}{\Omega}(g(n)) \Rightarrow f(n) \geq c g(n) \lg^{k}(n), c > 0, k > 0, n \geq n_{0}
+\end{equation*}
+
+  Similarly, Theorem 3.1 can be defined in terms of $\overset{\sim}{O}$ and $\overset{\sim}{\Omega}$.
+
+\begin{framed}
+  \textbf{\textit{3-6} Iterated functions}
+\end{framed}
+
+\subsubsection*{a}
+
+\begin{equation*}
+  \begin{split}
+    f^{(1)}(n) = n - 1 \\
+    f^{(2)}(n) = (n - 1) - 1 = n -2 \\
+    \vdots \\
+    f^{(i)}(n) = n - i
+  \end{split}
+\end{equation*}
+
+  Then, by definition:
+
+\begin{equation*}
+  \begin{split}
+    f_{c}^{*}(n) = min \{ i \geq 0 : f^{(i)}(n) \leq c \} \\
+    \Rightarrow f_{0}^{*}(n) = min \{ i \geq 0 : n - i \leq 0 \} \\
+    \Rightarrow i \geq n
+  \end{split}
+\end{equation*}
+
+\subsubsection*{b}
+
+\begin{equation*}
+  \begin{split}
+    f^{(1)}(n) = \lg n
+    f^{(2)}(n) = \lg(\lg n) \\
+    \vdots \\
+  \end{split}
+\end{equation*}
+
+  As $c = 1$, we have, by definition, that $i = \lg^{*}(n)$.
+
+\subsubsection*{c}
+
+\begin{equation*}
+  \begin{split}
+    f^{(1)}(n) = \frac{n}{2} \\
+    f^{(2)}(n) = \frac{\frac{n}{2}}{2} = \frac{n}{4} \\
+    \vdots \\
+    f^{(i)}(n) = \frac{n}{2^{i}}
+  \end{split}
+\end{equation*}
+
+  Then, we have:
+
+\begin{equation*}
+  \begin{split}
+    f^{(i)}(n) \leq c \\
+    \Rightarrow \frac{n}{2^{i}} \leq 1 \\
+    \Rightarrow 2^{i} \geq n \\
+    \Rightarrow i \geq \lg n
+  \end{split}
+\end{equation*}
+
+\subsubsection*{d}
+
+  Using the result from \textbf{c}:
+
+\begin{equation*}
+  \begin{split}
+    \frac{n}{2^{i}} \leq 2 \\
+    \Rightarrow 2^{i + 1} \geq n \\
+    \Rightarrow i + 1 \geq \lg n \\
+    \Rightarrow i \geq \lg(n) - 1
+  \end{split}
+\end{equation*}
+
+\subsubsection*{e}
+
+\begin{equation*}
+  \begin{split}
+    f^{(1)}(n) = \sqrt{n} = n^{\frac{1}{2}} \\
+    f^{(2)}(n) = \sqrt{\sqrt{n}} = n^{\frac{1}{4}} \\
+    \vdots \\
+    f^{(i)}(n) = n^{\frac{1}{2^{i}}}
+  \end{split}
+\end{equation*}
+
+  Then:
+
+\begin{equation*}
+  \begin{split}
+    n^{\frac{1}{2^{i}}} \leq 2 \\
+    \Rightarrow 2^{2^{i}} \geq n \\
+    \Rightarrow 2^{i} \geq \lg n \\
+    \Rightarrow i \geq \lg(\lg n)
+  \end{split}
+\end{equation*}
+
+\subsubsection*{f}
+
+  Using the result from \textbf{e}:
+
+\begin{equation*}
+  \begin{split}
+    n^{\frac{1}{2^{i}}} \leq 1 \\
+    \Rightarrow 1^{2^{i}} \geq n \\
+    \Rightarrow 1 \geq \lg n
+  \end{split}
+\end{equation*}
+
+  Contradiction. Thus, $f(n) = \sqrt{n}$ does not converge to $1$.
+
+\subsubsection*{g}
+
+\begin{equation*}
+  \begin{split}
+    f^{(1)}(n) = n^{\frac{1}{3}} \\
+    f^{(2)}(n) = \left(n^{\frac{1}{3}}\right)^{\frac{1}{3}} = n^{\frac{1}{9}} \\
+    \vdots \\
+    f^{(i)}(n) = n^{\frac{1}{3^{i}}}
+  \end{split}
+\end{equation*}
+
+  Then:
+
+\begin{equation*}
+  \begin{split}
+    n^{\frac{1}{3^{i}}} \leq 2 \\
+    \Rightarrow 2^{3^{i}} \geq n \\
+    \Rightarrow 3^{i} \geq \lg n \\
+    \Rightarrow i \geq \log_{3}(\lg n)
+  \end{split}
+\end{equation*}
+
+\subsubsection*{h}
+
+  Note that when $n = 2$:
+
+\begin{equation*}
+  \frac{n}{\lg n} = \frac{2}{\lg 2} = 2
+\end{equation*}
+
+  i.e., $f(n) = n$. The function stays at $2$ as long as it reaches it.
+
+  Thus, the function must be iterated up to the point where:
+
+\begin{equation*}
+  \frac{n}{\lg n} = 2
+\end{equation*}
+
+  And the result of that equation is
+
+\begin{equation*}
+  e^{-W_{-1} \mathlarger{\left(- \frac{\lg 2}{2}\right)}}
+\end{equation*}
+
+where $W$ is the Lambert W-function.\footnote{More info at http://mathworld.wolfram.com/LambertW-Function.html}
+
+\begin{center}
+  \begin{tabular}{@{\extracolsep{\fill}} c c | c }
+    $f(n)$            & $c$  & $f_{c}^{*}(n)$                                            \\
+    \hline
+    $n - 1$           & $0$    & $n$                                                     \\
+    \hline
+    $\lg n$           & $1$  & $\lg^{*}(n)$                                              \\
+    \hline
+    $\frac{n}{2}$     & $1$  & $\lg n$                                                   \\
+    \hline
+    $\frac{n}{2}$     & $2$  & $\lg(n) - 1$                                              \\
+    \hline
+    $\sqrt{n}$        & $2$  & $\lg(\lg n)$                                              \\
+    \hline
+    $\sqrt{n}$        & $1$  & -                                                         \\
+    \hline
+    $n^{\frac{1}{3}}$ & $2$  & $\log_{3}(\lg n)$                                         \\
+    \hline
+    $\frac{n}{\lg n}$ & $2$  & $e^{-W_{-1} \mathlarger{\left(- \frac{\lg 2}{2}\right)}}$ \\
+    \hline
+  \end{tabular}
+\end{center}
+
+\end{document}
