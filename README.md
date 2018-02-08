@@ -1,4 +1,4 @@
-##Introduction to Algorithms
+## Introduction to Algorithms
 
 This repository contains information and problem solutions related to the
 (outstanding) [Introduction to Algorithms](http://mitpress.mit.edu/books/introduction-algorithms)
@@ -9,7 +9,7 @@ before you have done your best shot at solving a problem yourself. Learning come
 
 Have fun :-)
 
-####On formats and viewing
+#### On formats and viewing
 
 For problems which do not have an executable solution (i.e., problems that just require
 you to perform some calculation or explain something), I have chosen to use [LATEX 2ε](http://www.latex-project.org/).
