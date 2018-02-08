@@ -1,5 +1,5 @@
 CC=c99
-CFLAGS=-I. -Wall -Wextra -O3
+CFLAGS=-I. -g -Wall -Wextra -O2
 
 ODIR=shared
 
@@ -18,8 +18,8 @@ run: build
 check:
 	bash $(TEST)
 
-.PHONY: clean
-
 clean:
 	@rm -fv $(ODIR)/*.o
 	@find . -path './.*' -prune -o -type f -executable -exec rm -v {} \;
+
+.PHONY: build run check clean

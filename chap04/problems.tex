@@ -1,0 +1,587 @@
+\documentclass[8pt,a4paper]{article}
+\pagestyle{empty}
+\usepackage{framed}
+\usepackage{clrscode3e}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+%running fraction with slash - requires math mode.
+\newcommand*\rfrac[2]{{}^{#1}\!/_{#2}}
+\newcommand{\qed}{\hfill\blacksquare}
+
+\section*{Chapter 4 - Problems}
+
+\begin{framed}
+\textbf{\textit{4-1} Recurrence examples}
+\end{framed}
+
+Most of the exercises can be easily solved using the master method.
+
+\subsubsection*{a}
+
+$T(n) = 2T(\rfrac{n}{2}) + n^{4}$. \\
+$a = 2$, $b = 2$, $f(n) = n^{4}$. Therefore, $n^{log_{b} a} = n^{\lg 2} = n$.
+$f(n) = n^{4} = \Omega(n)$ and is polynomially larger than $n$. Hence, $T(n) = \Theta(n^{4})$.
+
+\subsubsection*{b}
+
+$T(n) = T(\rfrac{7n}{10}) + n$. \\
+$a = 1$, $b = \rfrac{10}{7}$, $f(n) = n$. Therefore, $n^{log_{b} a} = n^{log_{\frac{10}{7}} 1} = n^{0} = 1$.
+$f(n) = n = \Omega(1)$ and is polynomially larger than $1$. Hence, $T(n) = \Theta(n)$.
+
+\subsubsection*{c}
+
+$T(n) = 16T(\rfrac{n}{4}) + n^{2}$. \\
+$a = 16$, $b = 4$, $f(n) = n^{2}$. Therefore, $n^{log_{b} a} = n^{log_{4} 16} = n^{2}$.
+$f(n) = n^{2} = \Theta(n^{2})$. Hence, $T(n) = \Theta(n^{2} \lg n)$.
+
+\subsubsection*{d}
+
+$T(n) = 7T(\rfrac{n}{3}) + n^{2}$. \\
+$a = 7$, $b = 3$, $f(n) = n^{2}$. Therefore, $n^{log_{b} a} = n^{log_{3} 7}$.
+$f(n) = n^{2} = \Omega(n^{log_{3} 7})$ and is polynomially larger than $n^{log_{3} 7}$.
+Hence, $T(n) = \Theta(n^{2})$.
+
+\subsubsection*{e}
+
+$T(n) = 7T(\rfrac{n}{2}) + n^{2}$. \\
+$a = 7$, $b = 2$, $f(n) = n^{2}$. Therefore, $n^{log_{b} a} = n^{log_{3} 7} = n^{\lg 7}$.
+$f(n) = n^{2} = O(n^{\lg 7})$. Hence, $T(n) = \Theta(n^{\lg 7})$.
+
+\subsubsection*{f}
+
+$T(n) = 2T(\rfrac{n}{4}) + \sqrt{n}$ \\
+$a = 2$, $b = 4$, $f(n) = \sqrt{n}$. Therefore, $n^{log_{b} a} = n^{log_{4} 2} = n^{\rfrac{1}{2}}$.
+$f(n) = \sqrt{n} = \Theta(n^{\rfrac{1}{2}})$. Hence, $T(n) = \Theta(\sqrt{n} \lg n)$.
+
+\newpage
+
+\subsubsection*{g}
+
+$T(n) = T(n - 2) + n^{2}$ \\
+
+  From the definition, we have that $T(n) = T(n - 4) + (n - 2)^{2} + n^{2}$. If this
+expansion continues, and remembering that $T(n) = O(1)$ for $n \leq 2$, we have:
+
+\begin{equation*}
+  \begin{split}
+    T(n) = \sum\limits_{i = 0}^{\lfloor \frac{n}{2} \rfloor - 1} (n - 2i)^{2} + O(1) \\
+    \leq \sum\limits_{i = 0}^{\lfloor \frac{n}{2} \rfloor - 1} n^{2}
+    = n^{2} \cdot \frac{n}{2} = \frac{n^{3}}{2} = \Theta(n^{3})
+  \end{split}
+\end{equation*}
+
+  Therefore, $T(n) = \Theta(n^{3})$. \\
+
+\begin{framed}
+\textbf{\textit{4-2} Parameter-passing costs}
+\end{framed}
+
+\subsubsection*{a}
+
+  The \proc{Binary-Search} algorithm divides itself in half after making a constant-
+time comparison. Thus, its running time can be expressed as $T(n) = T(\rfrac{n}{2}) + O(1)$.
+For each of the approaches on parameter passing, however, a cost is added in each recursive
+call. \\
+
+$1$. If the array is passed by pointer, we have the default scenario, and the added cost
+is $O(1)$. Thus, $T(n) = \Theta(\lg n)$. \\
+
+$2$. If the array is passed by copying, the cost added in each recursive call is $\Theta(n)$.
+In this situation, it outweights the cost of the searching itself, and therefore,
+by the master method, $T(n) = \Theta(n)$. \\
+
+$3$ If the array is passed by copying the subrange, the cost added in each recursive call
+is $\Theta(q - p +1)$. However, in the first call, $q -p + 1 = n$, and the final cost
+is the same as in the previous scenario. Hence, $T(n) = \Theta(n)$.
+
+\subsubsection*{b}
+
+  The \proc{Merge-Sort} algorithm also divides itself in half and solves the subproblem
+in each fraction, and the divide and combine parts of the algorithm run in time $\Theta(n)$.
+Thus, by the master method, it is easy to conclude that its running time i $T(n) = \Theta(n \lg n)$.
+Analyzing the algorithm in each parameter-passing scenario: \\
+
+$1$. If the array is passed by pointer, we have the default situation, and the added cost
+is $O(1)$. Thus, $T(n) = \Theta(n \lg n)$. \\
+
+$2$. If the array is passed by copying, the cost added in each recursive call is $\Theta(n)$.
+However, as the total cost of the algorithm already is $n \lg n$, the impact of the copying
+does not change the overall running time. Hence, $T(n) = \Theta(n \lg n)$. \\
+
+$3$. If the array is passed by copying the subrange, the impact is the same as in the previous
+scenario, and the total running time is $T(n) = \Theta(n \lg n)$. \\
+
+\begin{framed}
+\textbf{\textit{4-3} More recurrence examples}
+\end{framed}
+
+  In most of the following recurrences, the master method cannot be applied, and some
+other means have to be used - either guessing a solution, or expanding the recurrence
+to understand how it grows. \\
+
+  Notice that for some recurrences, summations will be compared to their integral
+counterparts to find upper bounds, as in:
+
+\begin{equation*}
+  \sum\limits_{i = 0}^{g(n)} f(i) \leq \int f(x)dx
+\end{equation*}
+
+\subsubsection*{a}
+
+$T(n) = 4T(\rfrac{n}{3}) + n \lg n$ \\
+
+Using the master method, $a = 4$, $b = 3$ and $f(n) = n \lg n$. Therefore, $n^{log_{b} a} =
+n^{log_{3} 4}$. From this, we conclude that $f(n) = O(n^{log_{3} 4 - \epsilon})$, for some
+$\epsilon > 0$. Thus, $T(n) = \Theta(n^{log_{3} 4})$.
+
+\subsubsection*{b}
+
+$T(n) = 3T(\rfrac{n}{3}) + \rfrac{n}{\lg n}$ \\
+
+The master method cannot be used in this case since $n$ is not polynomially larger than
+$\rfrac{n}{\lg n}$. However, expanding the recurrence gives a hint on solving
+the problem:
+
+\begin{equation*}
+  \begin{split}
+    T(n) = 3\left(3T\left(\frac{n}{9}\right) + \frac{\rfrac{n}{3}}{\lg \frac{n}{3}}\right) + \rfrac{n}{\lg n} \\
+    = 9T(\rfrac{n}{9}) + \frac{n}{\lg n - \lg 3} + \frac{n}{\lg n} \\
+    = O(1) + \sum\limits_{i = 0}^{\lg n - 1} \frac{n}{\lg n - \lg 3^{i}} \\
+    \leq n \sum\limits_{i = 2}^{\lg n} \frac{1}{\lg i} \leq n \lg \lg n
+  \end{split}
+\end{equation*}
+
+  Therefore, $T(n) = \Theta(n \lg \lg n)$.
+
+\subsubsection*{c}
+
+$T(n) = 4T(\rfrac{n}{2}) + n^{2}\sqrt{n}$. \\
+
+  In this case, the master method can be applied and $a = 4$, $b =2$ and $f(n) = n^{2}\sqrt{n}$.
+Thus, $n^{log_{b} a} = n^{log_{4} 2} = n^{\rfrac{1}{2}} = \sqrt{n}$. As $f(n) = \Omega(n^{2 + \epsilon})$,
+for some $\epsilon > 0$, it can be concluded that $T(n) = \Theta(n^{2} \sqrt{n})$.
+
+\subsubsection*{d}
+
+
+$T(n) = 3T(\rfrac{n}{3} - 2) + \rfrac{n}{2}$. \\
+
+  The constant factor $2$ can be safely ignored in the recursive function, which
+allows the master method to be applied. $a = 3$, $b = 3$ and $f(n) = \rfrac{n}{2}$.
+As $n^{log_{b} a} = n^{log_{3} 3} = n$ and $f(n) = \Theta(n)$, it is concluded that
+$T(n) = \Theta(n \lg n)$. \\
+
+  The same result can be achieved by expanding the recurrence if further proof that
+the constant term can be ignored is desired.
+
+\subsubsection*{e}
+
+$T(n) = 2T(\rfrac{n}{2}) + \rfrac{n}{\lg n}$. \\
+
+  This recurrence follows the exact same model present in item \textbf{b}, with the
+only difference being the logarithm base. Hence, $T(n) = \Theta(n \lg \lg n)$.
+
+\subsubsection*{f}
+
+$T(n) = T(\rfrac{n}{2}) + T(\rfrac{n}{4}) + T(\rfrac{n}{8}) + n$. \\
+
+  This recurrence obviously cannot be directly approached with the master method.
+However, it is not hard to guess a solution for a tight bound for it. Supposing
+$T(m) \leq cm$ for some constant $c > 0$ and $m < n$ and assuming it is valid
+for $m = \rfrac{n}{2}$, we have:
+
+\begin{equation*}
+  T(n) \leq c \cdot \frac{n}{2} + c \cdot \frac{n}{4} + c \cdot \frac{n}{8} + n
+  = (\rfrac{15}{8})c n
+\end{equation*}
+
+  Therefore, $T(n) = \Theta(n)$.
+
+\subsubsection*{g}
+
+$T(n) = T(n - 1) + \rfrac{1}{n}$. \\
+
+  This recurrence is easy to expand, and give us a hint on an upper bound:
+
+\begin{equation*}
+  \begin{split}
+    T(n) = T(n - 1) + \frac{1}{n} = T(n - 2) + \frac{1}{n - 1} + \frac{1}{n} \\
+    = O(1) + \sum\limits_{i = 0}^{n - 1} \frac{1}{n - i}
+    = O(1) + \sum\limits_{i = 1}^{n} \frac{1}{i} = H_{n}
+  \end{split}
+\end{equation*}
+
+  where $H_{n}$ is the $n$-th harmonic number. \\
+
+ Hence, $T(n) = \Theta(\lg n)$.
+
+\subsubsection*{h}
+
+$T(n) = T(n - 1) + \lg n$. \\
+
+  As with the previous recurrence, this one is also easy to expand:
+
+\begin{equation*}
+  \begin{split}
+    T(n) = T(n - 1) + \lg n = T(n - 2) + \lg(n - 1) + \lg n \\
+    = O(1) + \sum\limits_{i = 0}^{n - 1} \lg (n - i)
+    = O(1) + \sum\limits_{i = 1}^{n} \lg i \\
+    = \lg n! \leq \lg n^{n} = n \lg n
+  \end{split}
+\end{equation*}
+
+  From that, it is concluded that $T(n) = \Theta(n \lg n)$.
+
+\subsubsection*{i}
+
+$T(n) = T(n - 2) + \rfrac{1}{\lg n}$. \\
+
+  The solution to this recurrence can also be found by expanding it:
+
+\begin{equation*}
+  \begin{split}
+    T(n) = T(n - 2) + \rfrac{1}{\lg n} = T(n - 4) + \frac{1}{\lg(n - 2)} + \frac{1}{\lg n} \\
+    = O(1) + \sum\limits_{i = 0}^{\rfrac{n}{2} - 1} \frac{1}{\lg(n - 2i)} \\
+    = O(1) + \sum\limits_{i = 1}^{\rfrac{n}{2}} \frac{1}{\lg 2i}
+    = O(1) + \sum\limits_{i = 1}^{\rfrac{n}{2}} \frac{1}{1 + \lg i}
+  \end{split}
+\end{equation*}
+
+  Therefore, $T(n) = \Theta(\lg \lg n)$.
+
+\subsubsection*{j}
+
+$T(n) = \sqrt{n}T(\sqrt{n}) + n$. \\
+
+  This recurrence has no obvious way to be approached. Thus, we have to make a guess.
+Choosing the function $n \lg^{2} n$ and assuming that it holds for $m = \sqrt{n}$,
+then $T(\sqrt{n}) = c\sqrt{n} \lg^{2} \sqrt{n}$. From that, follows:
+
+\begin{equation*}
+  \begin{split}
+    T(n) \leq \sqrt{n} c\sqrt{n} \lg^{2} \sqrt{n} + n \\
+    = cn (\lg n - 1)^{2} + n \\
+    = cn(\lg^{2} n - 2\lg n + 1) + n \\
+    = cn\lg^{2}n -2cn\lg n + (c + 1)n \\
+    \leq cn\lg^{2} n
+  \end{split}
+\end{equation*}
+
+  From the previous result, it is concluded that $T(n) = \Theta(n \lg^{2} n)$. \\
+
+\begin{framed}
+\textbf{\textit{4-4} Fibonacci numbers}
+\end{framed}
+
+\subsubsection*{a}
+
+  First of all, let's expand the terms in the expression in an attempt to
+find a clue to the solution:
+
+\begin{equation*}
+  \begin{split}
+    z\mathcal{F}(z) = z \sum\limits_{i = 0}^{\infty} F_{i}z^{i} = \sum\limits_{i = 1}^{\infty}F_{i - 1}z^{i} \\
+    z^{2}\mathcal{F}(z) = z^{2} \sum\limits_{i = 0}^{\infty} F_{i}z^{i} = \sum\limits_{i = 2}^{\infty} F_{i - 2}z^{i}
+  \end{split}
+\end{equation*}
+
+  Apart from the above results, it is also important to note a few values derived from the
+very definition of the Fibonacci sequence:
+
+\begin{equation*}
+  \begin{split}
+    F_{i} = F_{i - 1} + F_{i - 2} \\
+    F_{0} = 0 \Rightarrow F_{0}z^{0} = 0 \\
+    F_{1} = 1 \Rightarrow F_{1}z^{1} = z \\
+    \sum\limits_{i = 1}^{\infty} F_{i}z^{i} = \sum\limits_{i = 0}^{\infty} F_{i}z^{i}
+  \end{split}
+\end{equation*}
+
+  With these equations in hand, we have:
+
+\begin{equation*}
+  \begin{split}
+    z + z\mathcal{F}(z) + z^{2}\mathcal{F}(z) \\
+    = z + \sum\limits_{i = 1}^{\infty} F_{i - 1}z^{i} + \sum\limits_{i = 2}^{\infty} F_{i - 2}z^{i} \\
+    = z + \sum\limits_{i = 2}^{\infty} F_{i}z^{i} \\
+    = \sum\limits_{i = 1}^{\infty} F_{i}z^{i} \\
+    = \sum\limits_{i = 0}^{\infty} F_{i}z^{i} = \mathcal{F}(z)
+  \end{split}
+\end{equation*}
+
+
+  Therefore, it is proved that $\mathcal{F}(z) = z + z\mathcal{F}(z) + z^{2}\mathcal{F}(z).\qed$
+
+\newpage
+
+\subsubsection*{b}
+
+  The equality can be proved solely by simple algebric manipulations and the result obtained
+in item \textbf{a}. Multiplying the fraction by $\mathcal{F}(z)$, we have
+
+\begin{equation*}
+  \frac{z}{1 - z - z^{2}} = \frac{z\mathcal{F}(z)}{\mathcal{F}(z) - z\mathcal{F}(z) - z^{2}\mathcal{F}(z)}
+\end{equation*}
+
+  Now, adding and subtracting $z$ from the previous fraction denominator:
+
+\begin{equation*}
+  \begin{split}
+    \frac{z}{1 - z - z^{2}} = \frac{z\mathcal{F}(z)}{z + \mathcal{F}(z) - (z + z\mathcal{F}(z) + z^{2}\mathcal{F}(z))} \\
+    = \frac{z\mathcal{F}(z)}{z + \mathcal{F}(z) - \mathcal{F}(z)} \\
+    = \frac{z\mathcal{F}(z)}{z} = \mathcal{F}(z)
+  \end{split}
+\end{equation*}
+
+  Which proves the hypothesis. $\qed$
+
+\subsubsection*{c}
+
+  It is easy to prove that
+
+\begin{equation*}
+  F_{i} = \frac{\phi^{i} - \widehat{\phi}^{i}}{\sqrt{5}}
+\end{equation*}
+
+  and that would prove the hypothesis. Indeed, that was done in exercise \textbf{3.2-7}.
+Refer to those results to understand why the previous equation holds.
+
+\subsubsection*{d}
+
+As generously indicated by the exercise hint, $|\widehat{\phi}| < 1$. Therefore:
+
+\begin{equation*}
+  \begin{split}
+    |\widehat{\phi}| < 1 \\
+    \Rightarrow |\widehat{\phi}^{i}| < 1 \\
+    \Rightarrow \frac{|\widehat{\phi}^{i}|}{\sqrt{5}} < \frac{1}{\sqrt{5}} \\
+    \Rightarrow \frac{|\widehat{\phi}^{i}|}{\sqrt{5}} < 0.5
+  \end{split}
+\end{equation*}
+
+  Hence, $\frac{\phi^{i}}{\sqrt{5}} - 0.5 < F_{i} < \frac{\phi^{i}}{\sqrt{5}} + 0.5$, $i > 0$,
+and that proves that $F_{i} = \frac{\phi^{i}}{\sqrt{5}}$, rounded to the nearest integer. $\qed$
+
+\newpage
+
+\begin{framed}
+\textbf{\textit{4-5} Chip testing}
+\end{framed}
+
+\subsubsection*{a}
+
+  In this scenario, let's suppose there are $G$ good chips in the sample,
+where $G < \rfrac{n}{2}$. As the exercises suggests, we can assume that the
+bad chips conspire to fool the professor. Following that logic, we can take
+$G$ bad chips and make them behave exactly like the good chips - i.e., only
+return \texttt{good} among themselves, and \texttt{bad} for all other chips. \\
+
+  In that configuration, it is not possible for the professor to separate
+the bad chips from the good ones. \\
+
+\subsubsection*{b}
+
+  The \texttt{divide} part of the algorithm in order to find a single good
+chip is as follows:
+
+\begin{enumerate}
+  \item Position all the $n$ chips in a row
+  \item Make pairwise comparisons with adjacent chips (i.e., the first with
+        the second, the third with the fourth, and so on)
+  \item If both chips state that they are good, then place one of them in a
+        separate list. Note that this scenario can only occur if both chips
+        are good, or if both chips are bad
+  \item If there is any uncompared chip (i.e., $n$ is odd), add it to the list
+  \item Now, the separate list will have size at most $\rfrac{n}{2}$, where
+        the number of good chips is larger than the number of bad chips. The
+        whole procedure can be repeated for this list until a single chip
+        remains, and that chip is guaranteed to be a good one.
+\end{enumerate}
+
+\subsubsection*{c}
+
+  In each step of the divide-and-conquer algorithm described in item \textbf{b},
+$\rfrac{n}{2}$ pairwise comparisons are needed to reduce the problem to half
+its size. After one good chip is identified, at most $n$ comparisons are needed
+in order to identify all the remaining good chips. Therefore, the recurrence can
+be expressed as:
+
+\begin{equation*}
+  T(n) = \frac{n}{2} + T\left(\frac{n}{2}\right) + n
+\end{equation*}
+
+  Applying the master method, we have that $a = 1$, $b = 2$ and $f(n) = \rfrac{3n}{2}$.
+Then, $n^{log_{b} a} = n^{log_{2} 1} = n^{0} = 1$. As $f(n) = \Omega(n^{log_{b} a})$,
+it is concluded that $T(n) = \Theta(n)$.$\qed$
+
+\newpage
+
+\begin{framed}
+\textbf{\textit{4-6} Monge arrays}
+\end{framed}
+
+\subsubsection*{a}
+
+  It's trivial to demonstrate that a Monge array satisfies the given equation,
+since it is only a subcase of the general rule that defines Monge arrays. \\
+
+  The more interesting demonstration is to prove that, if the equation holds for
+every $i$, $j$ within the array bounds, then the array is a Monge array. In other words,
+if every $1$x$1$ array of $A$ is a Monge array, then the whole array is also a Monge array.
+To achieve that goal, we are going to use the hint given by the authors and demonstrate that
+it is valid for lines and columns separately. \\
+
+\textbf{Lines} - the base case for the induction here is taking $k = i + 1$, in which case
+the equation holds by definition. Now, assuming that the equation is true for a given
+$k > i + 1$, we have to prove that it also holds for $k + 1$. \\
+
+  To formalize, our assumption is:
+
+\begin{equation*}
+  A[i, j] + A[k, j+1] \leq A[i, j+1] + A[k, j]
+\end{equation*}
+
+  From that assumption, it follows that:
+
+\begin{equation*}
+  A[k, j] + A[k+1, j+1] \leq A[k, j+1] + A[k+1, j]
+\end{equation*}
+
+  Now, if we sum both inequalities side by side, we have:
+
+\begin{equation*}
+  \begin{split}
+    A[i, j] + A[k, j+1] + A[k, j] + A[k+1, j+1] \leq \\
+      A[i, j+1] + A[k, j] + A[k, j+1] + A[k+1, j] \\
+      \\
+    \Rightarrow A[i, j] + A[k+1, j+1] \leq A[i, j+1] + A[k+1, j]
+  \end{split}
+\end{equation*}
+
+  And the inductive step is proven, finishing the demonstration for lines. \\
+
+\textbf{Columns} - The proof for columns is symmetric to the one for lines. The
+base case for the induction is taking $l = j + 1$, in which case the equation
+holds by definition. Supposing that it is also valid for $l > j + 1$, we have
+to prove that it holds for $l + 1$. \\
+
+  Therefore, our assumption and what follows from the definition are, in that order:
+
+\begin{equation*}
+  \begin{split}
+    A[i, j] + A[i+1, l] \leq A[i, l] + A[i+1, l] \\
+    A[i, l] + A[i+1, l+1] \leq A[i, l+1] + A[i+1, l]
+  \end{split}
+\end{equation*}
+
+  Summing both inequalities and removing the factors that appear on both sides,
+we will see the result we want:
+
+\begin{equation*}
+  A[i, j] + A[i+1, l+1] \leq A[i, l+1] + A[i+1, j]
+\end{equation*}
+
+  and that finishes the inductive step for the columns. \\
+
+  Therefore, as we have proved that the hypothesis holds for both lines
+and columns, we have demonstrated our proposition. $\qed$
+
+\subsubsection*{b}
+
+  With the result from item \textbf{a}, we just have to check every $1$x$1$
+array and check if it holds the defining rule of Monge arrays. Manually
+checking this array, we conclude that two changes are possible in order
+to make the array a Monge array. They are highlighted below. \\
+
+\begin{math}
+  \begin{matrix}
+    37 & 23 & \mathbf{24} & 32 \\
+    21 &  6 &  7          & 10 \\
+    53 & 34 & 30          & 31 \\
+    32 & 13 &  9          &  6 \\
+    43 & 21 & 15          &  8 \\
+  \end{matrix}
+\end{math}
+
+\vspace{0.5cm}
+
+\begin{math}
+  \begin{matrix}
+    37 & 23 & 24          & 32 \\
+    21 &  6 &  \mathbf{6} & 10 \\
+    53 & 34 & 30          & 31 \\
+    32 & 13 &  9          &  6 \\
+    43 & 21 & 15          &  8 \\
+  \end{matrix}
+\end{math}
+
+\subsubsection*{c}
+
+  Suppose there are two lines $p$ and $q$ with $p < q$ within the array bounds
+such that $f(p) > f(q)$. In this condition, the points $(p, f(p))$ and $(q, f(q))$
+form an area that should conform to the defining rule of the Monge arrays, i.e.:
+
+\begin{equation*}
+  A[p, f(q)] + A[q, f(p)] \leq A[p, f(p)] + A[q, f(q)]
+\end{equation*}
+
+  However, by definition, $A[p, f(p)] < A[p, f(q)]$ and $A[q, f(q)] < A[q, f(p)]$.
+Therefore, the previous inequality is impossible, and proves our hypothesis by absurd.
+$\qed$
+
+\subsubsection*{d}
+
+  If the even-numbered lines have the leftmost minimum already calculated, it follows
+from the property demonstrated in item \textbf{c} that:
+
+\begin{equation*}
+  f(2i) \leq f(2i + 1) \leq f(2i + 2)
+\end{equation*}
+
+  Therefore, for each odd-numbered line, it will be necessary to make at most
+$f(2i + 2) - f(2i) + 1$ comparisons. Thus, the cost of finding this index for
+every line in the array is:
+
+\begin{equation*}
+  \begin{split}
+    T(m, n) = \sum\limits_{i = 0}^{\rfrac{m}{2} - 1} f(2i+2) - f(2i) + 1 \\
+    = \sum\limits_{i = 0}^{\rfrac{m}{2} - 1} f(2i + 2) - \sum\limits_{i = 0}^{\rfrac{m}{2} - 1} f(2i) + \frac{m}{2} \\
+    = \sum\limits_{i = 1}^{\rfrac{m}{2}} f(2i) - \sum\limits_{i = 0}^{\rfrac{m}{2} - 1} f(2i) + \frac{m}{2} \\
+    = f(m) - f(0) + \frac{m}{2} \\
+    \leq n + \frac{m}{2} \\
+    = O(m + n)
+  \end{split}
+\end{equation*}
+
+  Therefore, we have proved that finding the leftmost minimum element of the
+odd-numbered rows of $A$ can be done in $O(m + n)$ time.
+
+\subsubsection*{e}
+
+  In each step of this divide-and-conquer algorithm, the number of lines is
+divided by half, and the combine part takes $O(m + n)$ time, as demonstrated in
+item \textbf{d}. Therefore, the recurrence equation for this algorithm is:
+
+\begin{equation*}
+  T(m, n) = T\left(\frac{m}{2}, n\right) + O(m + n)
+\end{equation*}
+
+  Expanding the previous recurrence makes it easier for us to find an upper
+bound for it:
+
+\begin{equation*}
+  \begin{split}
+    T(m, n) = T\left(\frac{m}{2}, n\right) + O(m + n) \\
+    = T\left(\frac{m}{4}, n\right) + O\left(\frac{m}{2} + n\right) + O(m + n) \\
+    = \sum\limits_{i = 0}^{\lg m} \frac{m}{2^{i}} + n \\
+    = O(m + n\lg m)
+  \end{split}
+\end{equation*}
+
+  Thus, it is proved that the whole algorithm runs in $O(m + n\lg m)$ time. $\qed$
+
+
+\end{document}
